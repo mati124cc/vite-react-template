@@ -1,14 +1,1330 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/react-app/main.tsx"></script>
-  </body>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prime MMA - Harmonogram + Player + Chat</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      background-color: #000;
+      color: #fff;
+      padding-top: 80px;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background-color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-sizing: border-box;
+      z-index: 1000;
+      border-bottom: 1px solid #0088ff;
+      box-shadow: 0 0 15px #0088ff;
+    }
+
+    .top-bar .logo {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 28px;
+      color: #fff;
+      text-shadow:
+        0 0 7px #0088ff,
+        0 0 10px #0088ff,
+        0 0 21px #0088ff,
+        0 0 42px #0088ff,
+        0 0 82px #0088ff,
+        0 0 92px #0088ff,
+        0 0 102px #0088ff,
+        0 0 151px #0088ff;
+    }
+
+    .top-bar .buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .top-bar .buttons button {
+      padding: 8px 15px;
+      background-color: #0088ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 5px #0088ff;
+    }
+
+    .top-bar .buttons button:hover {
+      background-color: #00aaff;
+      box-shadow: 0 0 10px #00aaff;
+    }
+
+    .layout {
+      display: flex;
+      flex-direction: row;
+      min-height: calc(100vh - 80px);
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .schedule-wrapper {
+      width: 250px;
+      flex-shrink: 0;
+      background-color: #111;
+      padding: 2px;
+      box-sizing: border-box;
+      border-right: 1px solid #333;
+      overflow-y: auto;
+      position: relative;
+      max-height: calc(100vh - 100px);
+    }
+
+    .day-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      position: sticky;
+      top: 0;
+      background-color: #111;
+      z-index: 1;
+      padding-top: 10px;
+    }
+
+    .day-buttons button {
+      flex: 1;
+      padding: 8px 5px;
+      margin: 0 2px;
+      background-color: #222;
+      border: 1px solid #444;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .day-buttons button.active {
+      background-color: #444;
+      font-weight: bold;
+    }
+
+    .day-schedule {
+      display: none;
+    }
+
+    .day-schedule.active {
+      display: block;
+    }
+
+    .day-schedule h3 {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #FFFFFF;
+      border-bottom: 1px solid #444;
+      padding-bottom: 5px;
+    }
+
+    .day-schedule ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .day-schedule li {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .day-schedule li.clickable {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .main-content {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      gap: 20px;
+      padding: 20px;
+      box-sizing: border-box;
+      align-items: flex-start;
+    }
+
+    .player-container {
+      width: 70%;
+      padding-bottom: 39.375%;
+      height: 0;
+      background-color: #000;
+      position: relative;
+      overflow: visible;
+    }
+
+    #player-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: #000;
+    }
+
+    .multi-screen-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .multi-screen-modal-content {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      width: 95%;
+      max-width: 1600px;
+      height: 85vh;
+      border: 2px solid #0088ff;
+      box-shadow: 0 0 15px #0088ff;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .multi-screen {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      width: 100%;
+      height: 85%;
+    }
+
+    .multi-screen iframe {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #333;
+      border-radius: 5px;
+      background-color: #000;
+      box-shadow: 0 0 10px #0088ff;
+    }
+
+    .multi-screen .error-message {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ccc;
+      text-align: center;
+      background-color: #000;
+      font-size: 16px;
+      border: 1px solid #333;
+      border-radius: 5px;
+    }
+
+    #player-wrapper {
+      display: block;
+    }
+
+    #placeholder-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 40px;
+      color: #ccc;
+      text-align: center;
+      padding-left: 20px;
+      padding-right: 20px;
+      box-sizing: border-box;
+      background-color: #000;
+      line-height: 1.3;
+    }
+
+    #placeholder-text > div {
+        max-width: 800px;
+        text-align: center;
+    }
+
+    #placeholder-text p {
+        margin: 10px 0;
+    }
+
+    #placeholder-text p {
+        font-size: 26px;
+    }
+    #placeholder-text p:first-of-type {
+        font-size: 32px;
+        font-weight: bold;
+        color: #00ccff;
+    }
+    #placeholder-text p:nth-of-type(2),
+    #placeholder-text p:nth-of-type(3) {
+        font-size: 28px;
+    }
+    #placeholder-text p:nth-of-type(4) {
+        font-size: 34px;
+        font-weight: bold;
+        color: #00ccff;
+    }
+    #placeholder-text p:nth-of-type(5) {
+        font-size: 26px;
+    }
+    #placeholder-text p:nth-of-type(6) {
+        font-size: 32px;
+        font-weight: bold;
+        color: #00ccff;
+    }
+    #countdown {
+        font-size: 24px !important;
+    }
+
+    .chat-container {
+      width: 30%;
+      height: 600px;
+      min-width: 260px;
+      border: 2px solid #0088ff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 15px #0088ff;
+    }
+
+    .chat-container iframe,
+    .chat-container > div {
+      width: 100% !important;
+      height: 100% !important;
+      border: none !important;
+    }
+
+    .player-buttons-container {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      margin-top: 10px;
+      text-align: left;
+      padding: 5px 10px;
+      display: none;
+    }
+
+    .player-button {
+      padding: 10px 20px;
+      background-color: #0088ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .player-button:hover {
+      background-color: #00aaff;
+      box-shadow: 0 0 10px #00aaff;
+    }
+
+    .fullscreen-button {
+      padding: 10px 20px;
+      background-color: #0088ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .fullscreen-button:hover {
+      background-color: #00aaff;
+      box-shadow: 0 0 10px #00aaff;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 2px solid #0088ff;
+      box-shadow: 0 0 15px #0088ff;
+    }
+
+    .modal h3 {
+      margin-top: 0;
+      font-size: 20px;
+      color: #fff;
+      border-bottom: 1px solid #444;
+      padding-bottom: 10px;
+    }
+
+    .modal ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+    }
+
+    .modal li {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .modal input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .modal button {
+      padding: 10px 20px;
+      background-color: #0088ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    .modal button:hover {
+      background-color: #00aaff;
+    }
+
+    .multi-screen-modal button {
+      align-self: flex-end;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+
+    @media (min-width: 1920px) {
+      body {
+        padding-top: 90px;
+      }
+      .top-bar {
+        height: 60px;
+        padding: 0 40px;
+      }
+      .top-bar .logo {
+        font-size: 32px;
+      }
+      .top-bar .buttons button {
+        font-size: 18px;
+        padding: 10px 20px;
+      }
+      .layout {
+        max-width: 1800px;
+        margin: 0 auto;
+        min-height: calc(100vh - 90px);
+      }
+      .schedule-wrapper {
+        width: 300px;
+        max-height: calc(100vh - 110px);
+      }
+      .main-content {
+        padding: 30px 20px 20px 20px;
+      }
+      .player-container {
+        width: 75%;
+        padding-bottom: 42.1875%;
+      }
+      .player-buttons-container {
+        margin-top: 10px;
+      }
+      .chat-container {
+        width: 25%;
+        min-width: 300px;
+        height: 670px;
+      }
+      #placeholder-text p {
+          font-size: 32px;
+      }
+      #placeholder-text p:first-of-type {
+          font-size: 38px;
+      }
+      #placeholder-text p:nth-of-type(2),
+      #placeholder-text p:nth-of-type(3) {
+          font-size: 34px;
+      }
+      #placeholder-text p:nth-of-type(4) {
+          font-size: 40px;
+      }
+      #placeholder-text p:nth-of-type(5) {
+          font-size: 32px;
+      }
+      #placeholder-text p:nth-of-type(6) {
+          font-size: 38px;
+      }
+      #countdown {
+          font-size: 30px !important;
+      }
+      .day-schedule h3 {
+        font-size: 18px;
+      }
+      .day-schedule li {
+        font-size: 16px;
+      }
+      .player-button, .fullscreen-button {
+        font-size: 18px;
+        padding: 12px 25px;
+      }
+      .modal-content {
+        padding: 25px;
+        max-width: 700px;
+      }
+      .modal h3 {
+        font-size: 22px;
+      }
+      .modal li {
+        font-size: 18px;
+      }
+      .modal button {
+        font-size: 18px;
+        padding: 12px 25px;
+      }
+      .multi-screen-modal-content {
+        width: 95%;
+        max-width: 1600px;
+        height: 85vh;
+      }
+      .multi-screen-modal button {
+        font-size: 18px;
+        padding: 12px 25px;
+      }
+    }
+
+    @media (min-width: 1024px) and (max-width: 1919px) {
+        .main-content {
+            padding: 25px 20px 20px 20px;
+        }
+        .player-container {
+            width: 75%;
+            padding-bottom: 42.1875%;
+        }
+        .player-buttons-container {
+          margin-top: 10px;
+        }
+        .chat-container {
+            width: 25%;
+            min-width: 260px;
+            height: 475px;
+        }
+        #placeholder-text p {
+            font-size: 16px;
+        }
+        #placeholder-text p:first-of-type {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ccff;
+        }
+        #placeholder-text p:nth-of-type(2),
+        #placeholder-text p:nth-of-type(3) {
+            font-size: 16px;
+        }
+        #placeholder-text p:nth-of-type(4) {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ccff;
+        }
+        #placeholder-text p:nth-of-type(5) {
+            font-size: 16px;
+        }
+        #placeholder-text p:nth-of-type(6) {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ccff;
+        }
+        #countdown {
+            font-size: 18px !important;
+        }
+        .modal-content {
+          padding: 15px;
+          max-width: 500px;
+        }
+        .modal h3 {
+          font-size: 18px;
+        }
+        .modal li {
+          font-size: 14px;
+        }
+        .modal button {
+          font-size: 14px;
+          padding: 8px 15px;
+        }
+        .multi-screen-modal-content {
+          width: 90%;
+          max-width: 1200px;
+          height: 80vh;
+        }
+        .multi-screen-modal button {
+          font-size: 14px;
+          padding: 8px 15px;
+        }
+    }
+
+    @media (max-width: 1023px) {
+      body {
+        padding-top: 70px;
+      }
+      .top-bar {
+        height: 40px;
+        padding: 0 10px;
+      }
+      .top-bar .logo {
+        font-size: 24px;
+      }
+      .top-bar .buttons {
+        gap: 10px;
+      }
+      .top-bar .buttons button {
+        padding: 6px 10px;
+        font-size: 14px;
+      }
+      .layout {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 70px);
+        margin-top: 0;
+      }
+
+      .schedule-wrapper {
+        width: 100%;
+        height: 300px;
+        border-right: none;
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
+      }
+
+      .day-buttons {
+          position: static;
+          padding-top: 0;
+      }
+
+      .main-content {
+        display: flex;
+        flex-direction: column;
+        padding: 15px 10px 10px 10px;
+        gap: 10px;
+      }
+
+      .player-container {
+        width: 100%;
+        padding-bottom: 56.25%;
+        height: 0;
+      }
+      .multi-screen {
+        grid-template-columns: 1fr;
+        grid-template-rows: 45% 45%;
+        gap: 10px;
+      }
+      .multi-screen iframe,
+      .multi-screen .error-message {
+        width: 100%;
+        height: 100%;
+      }
+      .player-buttons-container {
+        margin-top: 10px;
+      }
+      .chat-container {
+        width: 100%;
+        height: 400px;
+      }
+
+      #placeholder-text {
+        padding: 20px 10px;
+      }
+      #placeholder-text > div {
+        max-width: 90%;
+      }
+      #placeholder-text p {
+          font-size: 20px;
+      }
+      #placeholder-text p:first-of-type {
+          font-size: 24px;
+      }
+      #placeholder-text p:nth-of-type(2),
+      #placeholder-text p:nth-of-type(3) {
+          font-size: 22px;
+      }
+      #placeholder-text p:nth-of-type(4) {
+          font-size: 26px;
+      }
+      #placeholder-text p:nth-of-type(5) {
+          font-size: 20px;
+      }
+      #placeholder-text p:nth-of-type(6) {
+          font-size: 24px;
+      }
+      #countdown {
+          font-size: 18px !important;
+      }
+
+      .day-buttons button {
+        font-size: 12px;
+        padding: 6px 3px;
+      }
+      .modal-content {
+        width: 90%;
+        padding: 10px;
+        max-height: 70vh;
+      }
+      .modal h3 {
+        font-size: 16px;
+      }
+      .modal li {
+        font-size: 12px;
+      }
+      .modal button {
+        font-size: 12px;
+        padding: 6px 10px;
+      }
+      .multi-screen-modal-content {
+        width: 95%;
+        max-width: 800px;
+        height: 75vh;
+      }
+      .multi-screen-modal button {
+        font-size: 12px;
+        padding: 6px 10px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 65px;
+      }
+      .top-bar {
+        height: 35px;
+        padding: 0 5px;
+      }
+      .top-bar .logo {
+        font-size: 20px;
+      }
+      .top-bar .buttons {
+        gap: 5px;
+      }
+      .top-bar .buttons button {
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+      .layout {
+        margin-top: 0;
+        min-height: calc(100vh - 65px);
+      }
+      .main-content {
+        padding: 10px 10px 10px 10px;
+      }
+      .player-container {
+        width: 100%;
+        height: 240px;
+        padding-bottom: 0;
+      }
+      .multi-screen {
+        grid-template-columns: 1fr;
+        grid-template-rows: 45% 45%;
+        gap: 10px;
+      }
+      .multi-screen iframe,
+      .multi-screen .error-message {
+        width: 100%;
+        height: 100%;
+      }
+      .player-buttons-container {
+        position: static;
+        margin-top: 10px;
+      }
+      .chat-container {
+        width: 100%;
+        height: 300px;
+      }
+      #placeholder-text {
+        padding: 15px 5px;
+      }
+      #placeholder-text p {
+          font-size: 16px;
+      }
+      #placeholder-text p:first-of-type {
+          font-size: 20px;
+      }
+      #placeholder-text p:nth-of-type(2),
+      #placeholder-text p:nth-of-type(3) {
+          font-size: 18px;
+      }
+      #placeholder-text p:nth-of-type(4) {
+          font-size: 22px;
+      }
+      #placeholder-text p:nth-of-type(5) {
+          font-size: 16px;
+      }
+      #placeholder-text p:nth-of-type(6) {
+          font-size: 20px;
+      }
+      #countdown {
+          font-size: 16px !important;
+      }
+      .day-schedule h3 {
+        font-size: 14px;
+      }
+      .day-schedule li {
+        font-size: 15px;
+      }
+      .modal-content {
+        width: 95%;
+        padding: 8px;
+        max-height: 65vh;
+      }
+      .modal h3 {
+        font-size: 14px;
+      }
+      .modal li {
+        font-size: 10px;
+      }
+      .modal button {
+        font-size: 10px;
+        padding: 5px 8px;
+      }
+      .multi-screen-modal-content {
+        width: 98%;
+        height: 70vh;
+      }
+      .multi-screen-modal button {
+        font-size: 10px;
+        padding: 5px 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+        .top-bar .logo {
+            font-size: 18px;
+        }
+        .schedule-wrapper {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .day-buttons button {
+            margin: 0 1px;
+            font-size: 10px;
+            padding: 5px 2px;
+        }
+        .day-schedule li {
+            font-size: 11px;
+        }
+        #placeholder-text {
+            padding: 10px 5px;
+        }
+        #placeholder-text p {
+            font-size: 14px;
+        }
+        #placeholder-text p:first-of-type {
+            font-size: 16px;
+        }
+        #placeholder-text p:nth-of-type(2),
+        #placeholder-text p:nth-of-type(3) {
+            font-size: 15px;
+        }
+        #placeholder-text p:nth-of-type(4) {
+            font-size: 18px;
+        }
+        #placeholder-text p:nth-of-type(5) {
+            font-size: 14px;
+        }
+        #placeholder-text p:nth-of-type(6) {
+            font-size: 16px;
+        }
+        #countdown {
+            font-size: 14px !important;
+        }
+        .player-button, .fullscreen-button {
+          font-size: 14px;
+          padding: 8px 15px;
+        }
+        .modal-content {
+          width: 98%;
+          padding: 5px;
+        }
+        .modal h3 {
+          font-size: 12px;
+        }
+        .modal li {
+          font-size: 9px;
+        }
+        .modal button {
+          font-size: 9px;
+          padding: 4px 6px;
+        }
+        .multi-screen-modal-content {
+          width: 98%;
+          height: 65vh;
+        }
+        .multi-screen-modal button {
+          font-size: 9px;
+          padding: 4px 6px;
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="logo">MMAFREEE.EU/STRUMYK</div>
+    <div class="buttons">
+      <button onclick="window.location.href='https://mmafreee.eu/telewizja-24-7/'"><strong>📺TV 24/7📺</strong></button>
+      <button onclick="window.location.href='https://mmafreee.eu/powtorki-gal/'"><strong>🎬POWTÓRKI GAL🎬</strong></button>
+      <button onclick="openMultiScreenModal()">🖥️Multi Screen🖥️</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="schedule-wrapper">
+      <div class="day-buttons">
+        <button class="active" onclick="showSchedule('czwartek')">Wt</button>
+        <button onclick="showSchedule('piatek')">Śr</button>
+        <button onclick="showSchedule('sobota')">Czw</button>
+      </div>
+
+      <div id="czwartek" class="day-schedule active">
+        <h3>Wtorek</h3>
+        <ul>
+
+<li class="clickable" data-url="https://mmafree.byethost18.com/eurosport-1/" data-match-id="none">04:00 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsport1.php" data-match-id="none" style="color: lime;">04:50 - 🏐Siatkówka mężczyzn: Mistrzostwa świata U-21 - Chiny 2025 - mecz: Iran - Polska </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsport2.php" data-match-id="none">07:50 - 🏐Siatkówka mężczyzn: Mistrzostwa świata U-21 - Chiny 2025 - mecz: Bułgaria - Brazylia </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsportfight.php" data-match-id="none">10:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Argentyna - Słowenia </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsport2.php" data-match-id="none">10:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Francja - Grecja </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsport1.php" data-match-id="none">11:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Włochy - Belgia </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsport3.php" data-match-id="none">11:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Szwecja - Egipt </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/eurosport1.php" data-match-id="none">14:00 - 🚴‍♀️Kolarstwo: Vuelta a Espana - 4. etap: Susa - Voiron</li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsport2.php" data-match-id="none">14:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: USA - Czechy </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsport3.php" data-match-id="none">14:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Brazylia - Portoryko </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsportfight.php" data-match-id="none">15:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Kuba - Słowacja </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsport1.php" data-match-id="none">15:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Tajlandia - Holandia </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/eurosport1.php" data-match-id="none">17:00 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
+<li class="clickable" data-url="https://crimsdddd.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://crimsdddd.adamkowalski345687.workers.dev/", "https://streambetter.cyou/embed/special/PL/canalplusextra1.php", "https://mmafreee.eu/canal-plus-extra-1/"]' style="color: lime;">18:45 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: Kairat Almaty - Celtic FC (PIERWSZY MECZ 0-0) </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/elevensports2.php" data-match-id="none">19:00 - 🏍️Żużel: Liga szwedzka - rewanżowy mecz ćwierćfinałowy: Vastervik Speedway - Dackarna Malilla </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/elevensports1.php" data-match-id="none">20:45 - ⚽Piłka nożna: Puchar Niemiec - mecz 1. rundy: Eintracht Brunszwik TSV - VfB Stuttgart </li>
+<li class="clickable" data-url="https://crimsdddd.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://crimsdddd.adamkowalski345687.workers.dev/", "https://streambetter.cyou/embed/special/PL/canalplusextra1.php", "https://mmafreee.eu/canal-plus-extra-1/"]' style="color: lime;">21:00 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: Pafos FC - FK Crvena Zvezda Belgrad (PIERWSZY MECZ 2-1) </li>
+<li class="clickable" data-url="https://shiny-rice-0d6b.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://shiny-rice-0d6b.adamkowalski345687.workers.dev/", "https://streambetter.cyou/embed/special/PL/canalplusextra2.php", "https://mmafreee.eu/canal-plus-extra-2/"]' style="color: lime;">21:00 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: SK Sturm Graz - FK Bodø/Glimt (PIERWSZY MECZ 0-5) </li>
+
+
+
+
+
+
+
+
+
+
+
+ 
+          
+          
+
+
+        </ul>
+      </div>
+
+      <div id="piatek" class="day-schedule">
+        <h3>Środa</h3>
+        <ul>
+<li class="clickable" data-url="https://mmafree.byethost18.com/eurosport-1/" data-match-id="none">04:00 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/polsat-sport-1/" data-match-id="none">10:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Tajlandia - Holandia </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/polsat-sport-3/" data-match-id="none">10:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Turcja - Kanada </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/polsat-sport-1/" data-match-id="none">11:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Japonia - Serbia </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/polsat-sport-2/" data-match-id="none">11:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Kenia - Wietnam </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/polsat-sport-2/" data-match-id="none">14:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Chiny - Dominikana </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/polsat-sport-3/" data-match-id="none">14:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Bułgaria - Hiszpania </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/polsat-sport-1/" data-match-id="none" style="color: lime;">15:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Polska - Niemcy </li>
+<li class="clickable" data-url="https://streambetter.cyou/embed/special/PL/polsatsportfight.php" data-match-id="none">15:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Ukraina - Kamerun </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/eurosport-1/" data-match-id="none">16:00 - 🚴‍♀️Kolarstwo: Vuelta a Espana - 5. etap - jazda drużynowa na czas: Figueres - Figueres</li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/eurosport-2/" data-match-id="none">16:30 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/tvp-sport/" data-match-id="none">16:50 - 🏐Koszykówka mężczyzn: EuroBasket 2025 - mecz: Łotwa - Turcja </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/polsat-sport-2/" data-match-id="none">17:30 - 🏃Lekkoatletyka: Diamentowa Liga w Zurychu - 1. dzień </li>
+<li class="clickable" data-url="https://shiny-rice-0d6b.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://shiny-rice-0d6b.adamkowalski345687.workers.dev/", "https://streambetter.cyou/embed/special/PL/canalplusextra2.php", "https://mmafreee.eu/canal-plus-extra-2/"]' style="color: lime;">18:45 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: Karabach Agdam - Ferencváros (PIERWSZY MECZ 3-1) </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/eleven-sports-1/" data-match-id="none">20:45 - ⚽Piłka nożna: Puchar Niemiec - mecz 1. rundy: SV Wehen Wiesbaden - FC Bayern Monachium </li>
+<li class="clickable" data-url="https://crimsdddd.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://crimsdddd.adamkowalski345687.workers.dev/", "https://streambetter.cyou/embed/special/PL/canalplusextra1.php", "https://mmafreee.eu/canal-plus-extra-1/"]' style="color: lime;">21:00 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: SL Benfica - Fenerbahçe SK (PIERWSZY MECZ 0-0) </li>
+<li class="clickable" data-url="https://shiny-rice-0d6b.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://shiny-rice-0d6b.adamkowalski345687.workers.dev/", "https://streambetter.cyou/embed/special/PL/canalplusextra2.php", "https://mmafreee.eu/canal-plus-extra-2/"]' style="color: lime;">21:00 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: FC Kopenhaga - FC Basel 1893 (PIERWSZY MECZ 1-1) </li>
+<li class="clickable" data-url="https://mmafree.byethost18.com/eleven-sports-2/" data-match-id="none">21:00 - ⚽Piłka nożna: Liga hiszpańska - mecz: Celta Vigo - Real Betis Balompie </li>
+
+        </ul>
+      </div>
+
+      <div id="sobota" class="day-schedule">
+        <h3>Czwartek</h3>
+        <ul>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="player-container">
+        <div id="placeholder-text">
+          <div style="text-align: center; margin-bottom: 10px;"></div>
+          <div>
+
+
+            <p>📣 WAŻNE OGŁOSZENIE</p>
+<p>
+  <a href="https://mmafreee.eu/us-open/" 
+     style="color: yellow; font-weight: bold; text-decoration: underline; outline: none;" 
+     target="_blank" 
+     rel="noopener noreferrer">
+    🎾US OPEN 2025 WSZYSTKIE KORTY🎾
+  </a>
+</p>
+
+
+            <p>Od teraz transmisje dostępne są na <strong>nowej stronie!</strong></p>
+            <p>🔥 Szybsze ładowanie, lepszy czat, więcej wydarzeń sportowych!</p>
+            <p>👉 Kliknij wydarzenie po lewej, aby rozpocząć transmisję.</p>
+            <p>👉 Kliknij Multi Screen, aby oglądać 2 wydarzenia jednocześnie</p>
+            <p>⌛ Wydarzenia będą dodawane sukcesywnie</p>
+            <p>ℹ️Aby w pełni wykorzystać możliwości naszej strony, polecamy korzystać z przeglądarki Brave.</p>
+            <p>22 SIERPNIA STARTUJE BUNDESLIGA, WSZYSTKIE MECZE DO OBEJRZENIA TYLKO U NAS</p>
+            <div id="countdown" style="color: #0ff; margin-top: 20px;"></div>
+<a href="https://strefafilmowa.byethost14.com/kontakt.php" target="_blank">
+      <img src="https://mmafreee.eu/wp-content/uploads/2025/08/baner.png" alt="Baner" style="max-width: 100%; height: auto; margin-top: 20px;">
+    </a>
+          </div>
+        </div>
+        <div id="player-wrapper"></div>
+        <div class="player-buttons-container" id="player-buttons">
+          <button class="player-button" id="player1-button">Player 1</button>
+          <button class="player-button" id="player2-button">Player 2</button>
+          <button class="player-button" id="player3-button">Player 3</button>
+          
+        </div>
+      </div>
+
+      <div class="chat-container">
+        <script async data-cfasync="false" src="//st.chatango.com/js/gz/emb.js" id="cid0020000408318195501">
+          {"handle":"dajfdhjajiaijfjfa","arch":"js","styles":{"a":"0088ff","b":100,"c":"000000","d":"000000","k":"0088ff","l":"0088ff","m":"0088ff","n":"FFFFFF","p":"12","q":"0088ff","r":100,"fwtickm":1}}
+        </script>
+      </div>
+    </div>
+
+    <div id="multi-screen-modal" class="modal">
+      <div class="modal-content">
+        <h3>Wybierz 2 wydarzenia do Multi Screen</h3>
+        <ul id="event-list"></ul>
+        <button onclick="confirmMultiScreen()">Potwierdź</button>
+      </div>
+    </div>
+
+    <div id="multi-screen-display" class="multi-screen-modal">
+      <div class="multi-screen-modal-content">
+        <div class="multi-screen" id="multi-screen-content"></div>
+        <button onclick="closeMultiScreenDisplay()">Zamknij</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentEkstraklasaEvent = null;
+    let selectedStreams = [];
+
+    function showSchedule(dayId) {
+      const buttons = document.querySelectorAll('.day-buttons button');
+      const schedules = document.querySelectorAll('.day-schedule');
+
+      buttons.forEach(btn => btn.classList.remove('active'));
+      schedules.forEach(div => div.classList.remove('active'));
+
+      document.querySelector(`[onclick="showSchedule('${dayId}')"]`).classList.add('active');
+      document.getElementById(dayId).classList.add('active');
+      
+      resetPlayer();
+      currentEkstraklasaEvent = null;
+    }
+
+    function resetPlayer() {
+      const wrapper = document.getElementById('player-wrapper');
+      const placeholder = document.getElementById('placeholder-text');
+      const playerButtonsContainer = document.getElementById('player-buttons');
+      wrapper.innerHTML = '';
+      placeholder.style.display = 'flex';
+      playerButtonsContainer.style.display = 'none';
+      selectedStreams = [];
+      closeMultiScreenDisplay();
+      exitFullscreen();
+    }
+
+    function loadPlayer(url, matchId, playerNames = ['Player 1', 'Player 2', 'Player 3'], playerUrls = []) {
+      const wrapper = document.getElementById('player-wrapper');
+      const placeholder = document.getElementById('placeholder-text');
+      const playerButtonsContainer = document.getElementById('player-buttons');
+      const player1Button = document.getElementById('player1-button');
+      const player2Button = document.getElementById('player2-button');
+      const player3Button = document.getElementById('player3-button');
+      const fullscreenButton = document.getElementById('fullscreen-button');
+
+      wrapper.innerHTML = '';
+      placeholder.style.display = 'none';
+
+      if (url) {
+        const iframe = document.createElement('iframe');
+        iframe.id = 'player-iframe';
+        iframe.src = url;
+        iframe.allowFullscreen = true;
+        iframe.setAttribute('allow', 'fullscreen');
+        wrapper.appendChild(iframe);
+      } else {
+        placeholder.style.display = 'flex';
+      }
+
+      if (matchId && matchId.startsWith('ekstraklasa')) {
+        const names = currentEkstraklasaEvent?.matchId === matchId ? currentEkstraklasaEvent.playerNames : playerNames;
+        const urls = currentEkstraklasaEvent?.matchId === matchId ? currentEkstraklasaEvent.playerUrls : playerUrls;
+
+        if (urls.length === 3) {
+          currentEkstraklasaEvent = { matchId, playerNames: names, playerUrls: urls };
+          playerButtonsContainer.style.display = 'flex';
+          player1Button.textContent = names[0];
+          player2Button.textContent = names[1];
+          player3Button.textContent = names[2];
+          player1Button.onclick = () => loadPlayer(urls[0], matchId, names, urls);
+          player2Button.onclick = () => loadPlayer(urls[1], matchId, names, urls);
+          player3Button.onclick = () => loadPlayer(urls[2], matchId, names, urls);
+          fullscreenButton.style.display = 'inline-block';
+          fullscreenButton.onclick = toggleFullscreen;
+        } else {
+          playerButtonsContainer.style.display = 'none';
+          fullscreenButton.style.display = 'none';
+          currentEkstraklasaEvent = null;
+        }
+      } else {
+        playerButtonsContainer.style.display = 'none';
+        fullscreenButton.style.display = 'inline-block';
+        fullscreenButton.onclick = toggleFullscreen;
+        currentEkstraklasaEvent = null;
+      }
+    }
+
+    function toggleFullscreen() {
+      const iframe = document.getElementById('player-iframe');
+      const playerContainer = document.querySelector('.player-container');
+      
+      if (!document.fullscreenElement) {
+        if (iframe.requestFullscreen) {
+          iframe.requestFullscreen();
+        } else if (iframe.mozRequestFullScreen) { /* Firefox */
+          iframe.mozRequestFullScreen();
+        } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+          iframe.webkitRequestFullscreen();
+        } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+          iframe.msRequestFullscreen();
+        }
+      } else {
+        exitFullscreen();
+      }
+    }
+
+    function exitFullscreen() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) { /* Firefox */
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE/Edge */
+        document.msExitFullscreen();
+      }
+    }
+
+    function openMultiScreenModal() {
+      const modal = document.getElementById('multi-screen-modal');
+      const eventList = document.getElementById('event-list');
+      eventList.innerHTML = '';
+
+      const activeSchedule = document.querySelector('.day-schedule.active');
+      if (activeSchedule) {
+        activeSchedule.querySelectorAll('.clickable').forEach(event => {
+          const url = event.getAttribute('data-url');
+          if (url) {
+            const li = document.createElement('li');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = url;
+            checkbox.dataset.name = event.textContent.trim();
+            li.appendChild(checkbox);
+            li.appendChild(document.createTextNode(event.textContent.trim()));
+            eventList.appendChild(li);
+          }
+        });
+      }
+
+      modal.style.display = 'flex';
+    }
+
+    function confirmMultiScreen() {
+      const modal = document.getElementById('multi-screen-modal');
+      const checkboxes = document.querySelectorAll('#event-list input[type="checkbox"]:checked');
+      selectedStreams = Array.from(checkboxes).map(checkbox => ({
+        url: checkbox.value,
+        name: checkbox.dataset.name
+      }));
+
+      if (selectedStreams.length === 2) {
+        loadMultiScreen();
+        modal.style.display = 'none';
+      } else {
+        alert('Wybierz dokładnie 2 wydarzenia!');
+      }
+    }
+
+    function loadMultiScreen() {
+      const multiScreenModal = document.getElementById('multi-screen-display');
+      const multiScreenContent = document.getElementById('multi-screen-content');
+      multiScreenContent.innerHTML = '';
+
+      if (selectedStreams.length === 2) {
+        selectedStreams.forEach((stream, index) => {
+          if (stream.url) {
+            const iframe = document.createElement('iframe');
+            iframe.id = `player-iframe-${index}`;
+            iframe.allowFullscreen = true;
+            iframe.setAttribute('allow', 'fullscreen');
+            iframe.src = stream.url;
+            iframe.onerror = () => retryLoad(iframe, stream.url, 1, stream.name);
+            multiScreenContent.appendChild(iframe);
+          }
+        });
+        multiScreenModal.style.display = 'flex';
+      } else {
+        multiScreenModal.style.display = 'none';
+        alert('Wybierz dwa wydarzenia do wyświetlenia!');
+      }
+    }
+
+    function closeMultiScreenDisplay() {
+      const multiScreenModal = document.getElementById('multi-screen-display');
+      const multiScreenContent = document.getElementById('multi-screen-content');
+      
+      multiScreenContent.querySelectorAll('iframe').forEach(iframe => {
+        iframe.src = '';
+        iframe.remove();
+      });
+      multiScreenContent.innerHTML = '';
+      multiScreenModal.style.display = 'none';
+      selectedStreams = [];
+    }
+
+    function retryLoad(iframe, url, attempt, matchName) {
+      if (attempt <= 3) {
+        setTimeout(() => {
+          iframe.src = url;
+          attempt++;
+          iframe.onerror = () => retryLoad(iframe, url, attempt, matchName);
+        }, attempt * 2000);
+      } else {
+        iframe.parentNode.innerHTML = `<div class='error-message'>Nie udało się załadować transmisji dla ${matchName}</div>`;
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const target = e.target.closest('.clickable');
+      if (target) {
+        const url = target.getAttribute('data-url');
+        const matchId = target.getAttribute('data-match-id');
+        const playerNames = target.getAttribute('data-player-names') ? JSON.parse(target.getAttribute('data-player-names')) : ['Player 1', 'Player 2', 'Player 3'];
+        const playerUrls = target.getAttribute('data-player-urls') ? JSON.parse(target.getAttribute('data-player-urls')) : [];
+        loadPlayer(url, matchId, playerNames, playerUrls);
+      } else if (e.target === document.getElementById('multi-screen-modal')) {
+        document.getElementById('multi-screen-modal').style.display = 'none';
+      } else if (e.target === document.getElementById('multi-screen-display')) {
+        closeMultiScreenDisplay();
+      }
+    });
+
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+        (e.ctrlKey && ['U', 'S', 'P'].includes(e.key))
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    });
+
+    // Ensure fullscreen button is hidden initially
+    document.getElementById('fullscreen-button').style.display = 'none';
+  </script>
+  <script>
+    const targetDate = new Date("2025-08-22T20:30:00").getTime();
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      if (distance < 0) {
+        document.getElementById("countdown").innerHTML = "Wydarzenie już się rozpoczęło!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        `Do pierwszego meczu pozostało: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+
+<script type="text/javascript">
+    aclib.runInPagePush({
+        zoneId: '10295334',
+        maxAds: 2,
+    });
+</script>
+
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '10295358',
+    });
+</script>
+
+
+
+
+</body>
 </html>
