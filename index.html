@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Prime MMA - Harmonogram + Player + Chat</title>
@@ -185,7 +184,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
+      background-color: rgba(0, 0, 0, 0.95);
       z-index: 3000;
       align-items: center;
       justify-content: center;
@@ -193,24 +192,35 @@
 
     .multi-screen-modal-content {
       background-color: #1a1a1a;
-      padding: 20px;
-      border-radius: 10px;
-      width: 95%;
-      max-width: 1600px;
-      height: 85vh;
+      padding: 5px;
+      border-radius: 5px;
+      width: 99%;
+      max-width: 3600px; /* Increased for larger players */
+      height: 98vh; /* Increased for larger players */
       border: 2px solid #0088ff;
       box-shadow: 0 0 15px #0088ff;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 5px;
     }
 
     .multi-screen {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 15px;
+      grid-template-rows: 1fr 1fr;
+      gap: 5px;
       width: 100%;
-      height: 85%;
+      height: 94%;
+    }
+
+    .multi-screen.two-streams {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+    }
+
+    .multi-screen.three-streams {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
     }
 
     .multi-screen iframe {
@@ -306,6 +316,8 @@
       border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 0 15px #0088ff;
+      background-color: #000;
+      color: #fff;
     }
 
     .chat-container iframe,
@@ -313,6 +325,22 @@
       width: 100% !important;
       height: 100% !important;
       border: none !important;
+      background-color: #000 !important;
+      color: #fff !important;
+    }
+
+    .chat-container iframe * {
+      background-color: #000 !important;
+      color: #fff !important;
+    }
+
+    .chat-container h1,
+    .chat-container h2,
+    .chat-container h3,
+    .chat-container h4,
+    .chat-container h5,
+    .chat-container h6 {
+      color: #fff !important;
     }
 
     .player-buttons-container {
@@ -400,12 +428,65 @@
     }
 
     .modal li {
-      margin: 10px 0;
+      margin: 8px 0;
       font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background-color: #222;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal li:hover {
+      background-color: #333;
     }
 
     .modal input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      min-height: 18px;
       margin-right: 10px;
+      cursor: pointer;
+      background-color: #fff;
+      border: 1px solid #444;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      border-radius: 3px;
+      position: relative;
+    }
+
+    .modal input[type="checkbox"]:checked::before {
+      content: '✔';
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #0088ff;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .modal select {
+      padding: 8px;
+      margin: 0 10px;
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 5px;
+      font-size: 14px;
+      max-width: 200px;
+      cursor: pointer;
+    }
+
+    .modal select:focus {
+      outline: none;
+      border-color: #0088ff;
+      box-shadow: 0 0 5px #0088ff;
     }
 
     .modal button {
@@ -417,16 +498,18 @@
       cursor: pointer;
       font-size: 16px;
       margin-top: 10px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .modal button:hover {
       background-color: #00aaff;
+      box-shadow: 0 0 10px #00aaff;
     }
 
     .multi-screen-modal button {
       align-self: flex-end;
-      padding: 10px 20px;
-      font-size: 16px;
+      padding: 8px 16px;
+      font-size: 14px;
     }
 
     @media (min-width: 1920px) {
@@ -509,19 +592,34 @@
       }
       .modal li {
         font-size: 18px;
+        padding: 12px;
       }
       .modal button {
         font-size: 18px;
         padding: 12px 25px;
       }
       .multi-screen-modal-content {
-        width: 95%;
-        max-width: 1600px;
-        height: 85vh;
+        width: 99%;
+        max-width: 3840px; /* Increased for larger players */
+        height: 99vh; /* Increased for larger players */
+        padding: 5px;
+        gap: 5px;
+      }
+      .multi-screen {
+        height: 95%;
+        gap: 5px;
+      }
+      .multi-screen.two-streams {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+      }
+      .multi-screen.three-streams {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
       }
       .multi-screen-modal button {
-        font-size: 18px;
-        padding: 12px 25px;
+        font-size: 16px;
+        padding: 10px 20px;
       }
     }
 
@@ -578,19 +676,34 @@
         }
         .modal li {
           font-size: 14px;
+          padding: 10px;
         }
         .modal button {
           font-size: 14px;
           padding: 8px 15px;
         }
         .multi-screen-modal-content {
-          width: 90%;
-          max-width: 1200px;
-          height: 80vh;
+          width: 99%;
+          max-width: 2400px; /* Increased for larger players */
+          height: 96vh; /* Increased for larger players */
+          padding: 5px;
+          gap: 5px;
+        }
+        .multi-screen {
+          height: 94%;
+          gap: 5px;
+        }
+        .multi-screen.two-streams {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr;
+        }
+        .multi-screen.three-streams {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
         }
         .multi-screen-modal button {
           font-size: 14px;
-          padding: 8px 15px;
+          padding: 8px 16px;
         }
     }
 
@@ -646,8 +759,16 @@
       }
       .multi-screen {
         grid-template-columns: 1fr;
-        grid-template-rows: 45% 45%;
-        gap: 10px;
+        grid-template-rows: repeat(4, 22.5%);
+        gap: 5px;
+      }
+      .multi-screen.two-streams {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+      .multi-screen.three-streams {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 33.33%);
       }
       .multi-screen iframe,
       .multi-screen .error-message {
@@ -705,19 +826,34 @@
       }
       .modal li {
         font-size: 12px;
+        padding: 8px;
       }
       .modal button {
         font-size: 12px;
-        padding: 6px 10px;
+        padding: 5px 8px;
       }
       .multi-screen-modal-content {
-        width: 95%;
-        max-width: 800px;
-        height: 75vh;
+        width: 99%;
+        max-width: 1200px;
+        height: 85vh;
+        padding: 5px;
+        gap: 5px;
+      }
+      .multi-screen {
+        height: 94%;
+        gap: 5px;
+      }
+      .multi-screen.two-streams {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+      .multi-screen.three-streams {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 33.33%);
       }
       .multi-screen-modal button {
         font-size: 12px;
-        padding: 6px 10px;
+        padding: 6px 12px;
       }
     }
 
@@ -753,8 +889,16 @@
       }
       .multi-screen {
         grid-template-columns: 1fr;
-        grid-template-rows: 45% 45%;
-        gap: 10px;
+        grid-template-rows: repeat(4, 22.5%);
+        gap: 5px;
+      }
+      .multi-screen.two-streams {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+      .multi-screen.three-streams {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 33.33%);
       }
       .multi-screen iframe,
       .multi-screen .error-message {
@@ -810,18 +954,33 @@
       }
       .modal li {
         font-size: 10px;
+        padding: 6px;
       }
       .modal button {
         font-size: 10px;
         padding: 5px 8px;
       }
       .multi-screen-modal-content {
-        width: 98%;
-        height: 70vh;
+        width: 99%;
+        height: 80vh;
+        padding: 5px;
+        gap: 5px;
+      }
+      .multi-screen {
+        height: 94%;
+        gap: 5px;
+      }
+      .multi-screen.two-streams {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+      .multi-screen.three-streams {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 33.33%);
       }
       .multi-screen-modal button {
         font-size: 10px;
-        padding: 5px 8px;
+        padding: 5px 10px;
       }
     }
 
@@ -879,18 +1038,33 @@
         }
         .modal li {
           font-size: 9px;
+          padding: 5px;
         }
         .modal button {
           font-size: 9px;
           padding: 4px 6px;
         }
         .multi-screen-modal-content {
-          width: 98%;
-          height: 65vh;
+          width: 99%;
+          height: 75vh;
+          padding: 5px;
+          gap: 5px;
+        }
+        .multi-screen {
+          height: 94%;
+          gap: 5px;
+        }
+        .multi-screen.two-streams {
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr 1fr;
+        }
+        .multi-screen.three-streams {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(3, 33.33%);
         }
         .multi-screen-modal button {
           font-size: 9px;
-          padding: 4px 6px;
+          padding: 4px 8px;
         }
     }
   </style>
@@ -908,68 +1082,12 @@
   <div class="layout">
     <div class="schedule-wrapper">
       <div class="day-buttons">
-        <button class="active" onclick="showSchedule('czwartek')">Śr</button>
-        <button onclick="showSchedule('piatek')">Czw</button>
-        <button onclick="showSchedule('sobota')">Pt</button>
+        <button class="active" onclick="showSchedule('czwartek')">Czw</button>
+        <button onclick="showSchedule('piatek')">Pt</button>
+        <button onclick="showSchedule('sobota')">Sob</button>
       </div>
 
       <div id="czwartek" class="day-schedule active">
-        <h3>Środa</h3>
-        <ul>
-<li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">04:00 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
-<li class="clickable" data-url="https://polsatsport1.adamkowalski345687.workers.dev/" data-match-id="none">10:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Tajlandia - Holandia </li>
-<li class="clickable" data-url="https://polsatsport3.adamkowalski345687.workers.dev/" data-match-id="none">10:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Turcja - Kanada </li>
-<li class="clickable" data-url="https://polsatsportfight.adamkowalski345687.workers.dev/" data-match-id="none">10:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Kolumbia - Meksyk </li>
-<li class="clickable" data-url="https://polsatsport1.adamkowalski345687.workers.dev/" data-match-id="none">11:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Japonia - Serbia </li>
-<li class="clickable" data-url="https://polsatsport2.adamkowalski345687.workers.dev/" data-match-id="none">11:50 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Kenia - Wietnam </li>
-<li class="clickable" data-url="https://voodc.com/embed/1/85818b979e90998a847a85999d8c98858c.html" data-match-id="none">12:30 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Wielka Brytania - Litwa </li>
-<li class="clickable" data-url="https://embedsports.top/embed/bravo/1756295100000-czech-republic-portugal-english-/1" data-match-id="none">13:45 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Czechy - Portugalia </li>
-<li class="clickable" data-url="https://polsatsport2.adamkowalski345687.workers.dev/" data-match-id="none">14:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Chiny - Dominikana </li>
-<li class="clickable" data-url="https://polsatsport3.adamkowalski345687.workers.dev/" data-match-id="none">14:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Bułgaria - Hiszpania </li>
-<li class="clickable" data-url="https://polsatsport1.adamkowalski345687.workers.dev/" data-match-id="none" style="color: lime;">15:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Polska - Niemcy </li>
-<li class="clickable" data-url="https://polsatsportfight.adamkowalski345687.workers.dev/" data-match-id="none">15:20 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz: Ukraina - Kamerun </li>
-<li class="clickable" data-url="https://embedsports.top/embed/bravo/1756301400000-montenegro-germany-english-/1" data-match-id="none">15:30 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Czarnogóra - Niemcy </li>
-<li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">16:00 - 🚴‍♀️Kolarstwo: Vuelta a Espana - 5. etap - jazda drużynowa na czas: Figueres - Figueres</li>
-<li class="clickable" data-url="https://eurosport2.adamkowalski345687.workers.dev/" data-match-id="none">16:30 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
-<li class="clickable" data-url="https://tvpsport.adamkowalski345687.workers.dev/" data-match-id="none">17:00 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Łotwa - Turcja </li>
-<li class="clickable" data-url="https://polsatsport2.adamkowalski345687.workers.dev/" data-match-id="none">17:30 - 🏃Lekkoatletyka: Diamentowa Liga w Zurychu - 1. dzień </li>
-<li class="clickable" data-url="https://voodc.com/embed/1/85818b979f889b86847a85979d8c98898d.html" data-match-id="none">18:30 - ⚽Piłka nożna: Eliminacje Ligi Europy 4 Runda Rewanż: AEK Larnaka - Brann (PIERWSZY MECZ 1-2)  </li>
-<li class="clickable" data-url="https://voodc.com/embed/1/85818b979f889c85847a85979e8d988a8b.html" data-match-id="none">18:45 - ⚽Piłka nożna: Eliminacje Ligi Konferencji 4 Runda Rewanż: Ryga FC - Sparta Praga (PIERWSZY MECZ 0-2)  </li>
-<li class="clickable" data-url="https://www.vidembed.re/stream/2ca9f16f-834a-4989-a2ce-31ebf343f144" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://www.vidembed.re/stream/2ca9f16f-834a-4989-a2ce-31ebf343f144", "https://jebacanalextra2.adamkowalski345687.workers.dev/", "https://mmafreee.eu/canal-plus-extra-2/"]' style="color: lime;">18:45 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: Karabach Agdam - Ferencváros (PIERWSZY MECZ 3-1) </li>
-<li class="clickable" data-url="https://embedsports.top/embed/alpha/sweden-vs-finland/1" data-match-id="none">19:30 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Szwecja - Finlandia </li>
-<li class="clickable" data-url="https://embedsports.top/embed/alpha/serbia-vs-estonia/1" data-match-id="none">20:15 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Serbia - Estonia </li>
-<li class="clickable" data-url="https://elevensports1.adamkowalski345687.workers.dev/" data-match-id="none">20:45 - ⚽Piłka nożna: Puchar Niemiec - mecz 1. rundy: SV Wehen Wiesbaden - FC Bayern Monachium </li>
-<li class="clickable" data-url="https://embedsports.top/embed/alpha/everton-vs-mansfield-town/2" data-match-id="none">20:45 - ⚽Piłka nożna: Carabao Cup: Everton – Mansfield Town </li>
-<li class="clickable" data-url="https://embedsports.top/embed/alpha/fulham-vs-bristol-city/1" data-match-id="none">20:45 - ⚽Piłka nożna: Carabao Cup: Fulham – Bristol City </li>
-<li class="clickable" data-url="https://embedsports.top/embed/alpha/oxford-united-vs-brighton-hove-albion/1" data-match-id="none">20:45 - ⚽Piłka nożna: Carabao Cup: Oxford Utd – Brighton </li>
-<li class="clickable" data-url="https://embedsports.top/embed/alpha/grimsby-town-vs-manchester-united/1" data-match-id="none">21:00 - ⚽Piłka nożna: Carabao Cup: Grimsby Town – Manchester United </li>
-<li class="clickable" data-url="https://veplay.top/stream/2148fd41-fd2d-4c6a-b408-3d728c3cca53#autoplay" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://veplay.top/stream/2148fd41-fd2d-4c6a-b408-3d728c3cca53#autoplay", "https://jebacanalextra3.adamkowalski345687.workers.dev/", "https://mmafreee.eu/canal-plus-extra-1/"]' style="color: lime;">21:00 - ⚽Piłka nożna: Multiliga Eliminacji Ligi Mistrzów </li>
-<li class="clickable" data-url="https://crimsdddd.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://crimsdddd.adamkowalski345687.workers.dev/", "https://streambetter.cyou/play/play.php?id=5412", "https://mmafreee.eu/canal-plus-extra-1/"]' style="color: lime;">21:00 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: SL Benfica - Fenerbahçe SK (PIERWSZY MECZ 0-0) </li>
-<li class="clickable" data-url="https://jebacanalextra2.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://jebacanalextra2.adamkowalski345687.workers.dev/", "https://streambetter.cyou/embed/special/PL/canalplusextra2.php", "https://mmafreee.eu/canal-plus-extra-2/"]' style="color: lime;">21:00 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: FC Kopenhaga - FC Basel 1893 (PIERWSZY MECZ 1-1) </li>
-<li class="clickable" data-url="https://jebacanalplus360.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://jebacanalplus360.adamkowalski345687.workers.dev/", "https://streambetter.cyou/play/play.php?id=680", "https://streambetter.cyou/embed/special/PL/canal360.php"]' style="color: lime;">21:00 - ⚽Piłka nożna: Eliminacje Ligi Mistrzów UEFA - rewanżowy mecz fazy play-off: Club Brugge – Rangers (PIERWSZY MECZ 3-1) </li>
-<li class="clickable" data-url="https://elevensports2.adamkowalski345687.workers.dev/" data-match-id="none">21:00 - ⚽Piłka nożna: Liga hiszpańska - mecz: Celta Vigo - Real Betis Balompie </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-          
-          
-
-
-        </ul>
-      </div>
-
-      <div id="piatek" class="day-schedule">
         <h3>Czwartek</h3>
         <ul>
 <li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">04:00 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
@@ -983,6 +1101,7 @@
 <li class="clickable" data-url="https://tvpsport.adamkowalski345687.workers.dev/" data-match-id="none">17:00 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Belgia - Francja </li>
 <li class="clickable" data-url="" data-match-id="none">17:00 - ⚽Piłka nożna: Eliminacje Ligi Konferencji 4 Runda Rewanż: KuPS – FC Midtjylland (PIERWSZY MECZ 0-4)  </li>
 <li class="clickable" data-url="" data-match-id="none">17:15 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Bośnia i Hercegowina - Cypr </li>
+<li class="clickable" data-url="https://jebacanalplus360.adamkowalski345687.workers.dev/" data-match-id="none" style="color: lime;">18:00 - ⚽Piłka nożna: Losowanie Fazy Ligowej Ligi Mistrzów  </li>
 <li class="clickable" data-url="" data-match-id="none">18:00 - ⚽Piłka nożna: Eliminacje Ligi Konferencji 4 Runda Rewanż: Fredrikstad – Crystal Palace (PIERWSZY MECZ 0-1)  </li>
 <li class="clickable" data-url="" data-match-id="none">18:30 - ⚽Piłka nożna: Eliminacje Ligi Europy 4 Runda Rewanż: Sigma Ołomuniec – Malmö FF (PIERWSZY MECZ 0-3)  </li>
 <li class="clickable" data-url="https://polsatsport2.adamkowalski345687.workers.dev/" data-match-id="none">18:30 - 🏃Lekkoatletyka: Diamentowa Liga w Zurychu - 2. dzień </li>
@@ -1018,7 +1137,7 @@
         </ul>
       </div>
 
-      <div id="sobota" class="day-schedule">
+      <div id="piatek" class="day-schedule">
         <h3>Piątek</h3>
         <ul>
 <li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">04:00 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
@@ -1059,6 +1178,12 @@
 <li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=6" data-match-id="none">21:30 - ⚽Piłka nożna: Liga hiszpańska - mecz: Valencia CF - Getafe CF  </li>
         </ul>
       </div>
+
+      <div id="sobota" class="day-schedule">
+        <h3>Sobota</h3>
+        <ul>
+        </ul>
+      </div>
     </div>
 
     <div class="main-content">
@@ -1066,8 +1191,6 @@
         <div id="placeholder-text">
           <div style="text-align: center; margin-bottom: 10px;"></div>
           <div>
-
-
             <p>📣 WAŻNE OGŁOSZENIE</p>
 <p>
   <a href="https://mmafreee.eu/us-open/" 
@@ -1077,12 +1200,10 @@
     🎾US OPEN 2025 WSZYSTKIE KORTY🎾
   </a>
 </p>
-
-
             <p>Od teraz transmisje dostępne są na <strong>nowej stronie!</strong></p>
             <p>🔥 Szybsze ładowanie, lepszy czat, więcej wydarzeń sportowych!</p>
             <p>👉 Kliknij wydarzenie po lewej, aby rozpocząć transmisję.</p>
-            <p>👉 Kliknij Multi Screen, aby oglądać 2 wydarzenia jednocześnie</p>
+            <p>👉 Kliknij Multi Screen, aby oglądać 2, 3 lub 4 wydarzenia jednocześnie</p>
             <p>⌛ Wydarzenia będą dodawane sukcesywnie</p>
             <p>ℹ️Aby w pełni wykorzystać możliwości naszej strony, polecamy korzystać z przeglądarki Brave.</p>
             <p>22 SIERPNIA STARTUJE BUNDESLIGA, WSZYSTKIE MECZE DO OBEJRZENIA TYLKO U NAS</p>
@@ -1097,20 +1218,25 @@
           <button class="player-button" id="player1-button">Player 1</button>
           <button class="player-button" id="player2-button">Player 2</button>
           <button class="player-button" id="player3-button">Player 3</button>
-          
+          <button class="fullscreen-button" id="fullscreen-button">Pełny ekran</button>
         </div>
       </div>
 
       <div class="chat-container">
         <script async data-cfasync="false" src="//st.chatango.com/js/gz/emb.js" id="cid0020000408318195501">
-          {"handle":"dajfdhjajiaijfjfa","arch":"js","styles":{"a":"0088ff","b":100,"c":"000000","d":"000000","k":"0088ff","l":"0088ff","m":"0088ff","n":"FFFFFF","p":"12","q":"0088ff","r":100,"fwtickm":1}}
+          {"handle":"dajfdhjajiaijfjfa","arch":"js","styles":{"a":"FFFFFF","b":100,"c":"000000","d":"000000","k":"FFFFFF","l":"FFFFFF","m":"FFFFFF","n":"FFFFFF","p":"12","q":"FFFFFF","r":100,"fwtickm":1}}
         </script>
       </div>
     </div>
 
     <div id="multi-screen-modal" class="modal">
       <div class="modal-content">
-        <h3>Wybierz 2 wydarzenia do Multi Screen</h3>
+        <h3>Wybierz wydarzenia do Multi Screen</h3>
+        <select id="stream-count" onchange="updateStreamSelection()">
+          <option value="2">2 wydarzenia</option>
+          <option value="3">3 wydarzenia</option>
+          <option value="4">4 wydarzenia</option>
+        </select>
         <ul id="event-list"></ul>
         <button onclick="confirmMultiScreen()">Potwierdź</button>
       </div>
@@ -1127,6 +1253,7 @@
   <script>
     let currentEkstraklasaEvent = null;
     let selectedStreams = [];
+    let streamCount = 4;
 
     function showSchedule(dayId) {
       const buttons = document.querySelectorAll('.day-buttons button');
@@ -1191,7 +1318,6 @@
           player2Button.onclick = () => loadPlayer(urls[1], matchId, names, urls);
           player3Button.onclick = () => loadPlayer(urls[2], matchId, names, urls);
           fullscreenButton.style.display = 'inline-block';
-          fullscreenButton.onclick = toggleFullscreen;
         } else {
           playerButtonsContainer.style.display = 'none';
           fullscreenButton.style.display = 'none';
@@ -1200,7 +1326,6 @@
       } else {
         playerButtonsContainer.style.display = 'none';
         fullscreenButton.style.display = 'inline-block';
-        fullscreenButton.onclick = toggleFullscreen;
         currentEkstraklasaEvent = null;
       }
     }
@@ -1239,20 +1364,59 @@
     function openMultiScreenModal() {
       const modal = document.getElementById('multi-screen-modal');
       const eventList = document.getElementById('event-list');
+      const streamCountSelect = document.getElementById('stream-count');
       eventList.innerHTML = '';
 
+      streamCount = parseInt(streamCountSelect.value);
       const activeSchedule = document.querySelector('.day-schedule.active');
       if (activeSchedule) {
         activeSchedule.querySelectorAll('.clickable').forEach(event => {
           const url = event.getAttribute('data-url');
-          if (url) {
+          const matchId = event.getAttribute('data-match-id');
+          const playerNames = event.getAttribute('data-player-names') ? JSON.parse(event.getAttribute('data-player-names')) : null;
+          const playerUrls = event.getAttribute('data-player-urls') ? JSON.parse(event.getAttribute('data-player-urls')) : null;
+          const eventName = event.textContent.trim();
+
+          // Only include events with a valid URL or playerUrls with at least one non-empty URL
+          if (url || (playerUrls && playerUrls.some(u => u))) {
             const li = document.createElement('li');
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
-            checkbox.value = url;
-            checkbox.dataset.name = event.textContent.trim();
-            li.appendChild(checkbox);
-            li.appendChild(document.createTextNode(event.textContent.trim()));
+            checkbox.dataset.matchId = matchId;
+            checkbox.dataset.name = eventName;
+            checkbox.dataset.playerNames = JSON.stringify(playerNames || []);
+            checkbox.dataset.playerUrls = JSON.stringify(playerUrls || []);
+            checkbox.onclick = () => limitCheckboxes();
+
+            if (playerUrls && playerUrls.length > 0 && matchId.startsWith('ekstraklasa')) {
+              // For Ekstraklasa events with multiple players, create a dropdown
+              const select = document.createElement('select');
+              select.dataset.matchId = matchId;
+              playerUrls.forEach((playerUrl, index) => {
+                if (playerUrl) {
+                  const option = document.createElement('option');
+                  option.value = playerUrl;
+                  option.textContent = playerNames[index];
+                  option.dataset.playerIndex = index;
+                  select.appendChild(option);
+                }
+              });
+              checkbox.dataset.url = playerUrls[0]; // Default to first player URL
+              li.appendChild(checkbox);
+              li.appendChild(document.createTextNode(' ' + eventName + ' '));
+              li.appendChild(select);
+              select.onchange = () => {
+                checkbox.dataset.url = select.value;
+                checkbox.dataset.playerIndex = select.selectedOptions[0].dataset.playerIndex;
+              };
+            } else if (url) {
+              // For non-Ekstraklasa events with a single URL
+              checkbox.dataset.url = url;
+              checkbox.dataset.playerIndex = 0;
+              li.appendChild(checkbox);
+              li.appendChild(document.createTextNode(' ' + eventName));
+            }
+
             eventList.appendChild(li);
           }
         });
@@ -1261,19 +1425,42 @@
       modal.style.display = 'flex';
     }
 
+    function limitCheckboxes() {
+      const checkboxes = document.querySelectorAll('#event-list input[type="checkbox"]:checked');
+      if (checkboxes.length > streamCount) {
+        alert(`Możesz wybrać maksymalnie ${streamCount} wydarzenia!`);
+        checkboxes[checkboxes.length - 1].checked = false;
+      }
+    }
+
+    function updateStreamSelection() {
+      const streamCountSelect = document.getElementById('stream-count');
+      streamCount = parseInt(streamCountSelect.value);
+      const checkboxes = document.querySelectorAll('#event-list input[type="checkbox"]:checked');
+      if (checkboxes.length > streamCount) {
+        Array.from(checkboxes).slice(streamCount).forEach(checkbox => {
+          checkbox.checked = false;
+        });
+      }
+    }
+
     function confirmMultiScreen() {
       const modal = document.getElementById('multi-screen-modal');
       const checkboxes = document.querySelectorAll('#event-list input[type="checkbox"]:checked');
       selectedStreams = Array.from(checkboxes).map(checkbox => ({
-        url: checkbox.value,
-        name: checkbox.dataset.name
+        url: checkbox.dataset.url,
+        name: checkbox.dataset.name,
+        matchId: checkbox.dataset.matchId,
+        playerNames: JSON.parse(checkbox.dataset.playerNames || '[]'),
+        playerUrls: JSON.parse(checkbox.dataset.playerUrls || '[]'),
+        playerIndex: parseInt(checkbox.dataset.playerIndex || 0)
       }));
 
-      if (selectedStreams.length === 2) {
+      if (selectedStreams.length === streamCount) {
         loadMultiScreen();
         modal.style.display = 'none';
       } else {
-        alert('Wybierz dokładnie 2 wydarzenia!');
+        alert(`Wybierz dokładnie ${streamCount} wydarzenia!`);
       }
     }
 
@@ -1281,8 +1468,14 @@
       const multiScreenModal = document.getElementById('multi-screen-display');
       const multiScreenContent = document.getElementById('multi-screen-content');
       multiScreenContent.innerHTML = '';
+      multiScreenContent.classList.remove('two-streams', 'three-streams');
 
-      if (selectedStreams.length === 2) {
+      if (selectedStreams.length === streamCount) {
+        if (streamCount === 2) {
+          multiScreenContent.classList.add('two-streams');
+        } else if (streamCount === 3) {
+          multiScreenContent.classList.add('three-streams');
+        }
         selectedStreams.forEach((stream, index) => {
           if (stream.url) {
             const iframe = document.createElement('iframe');
@@ -1291,13 +1484,26 @@
             iframe.setAttribute('allow', 'fullscreen');
             iframe.src = stream.url;
             iframe.onerror = () => retryLoad(iframe, stream.url, 1, stream.name);
+
+            // Special layout for 3 streams: two on top, one centered at bottom
+            if (streamCount === 3 && index === 2) {
+              iframe.style.gridColumn = '1 / 3';
+              iframe.style.justifySelf = 'center';
+              iframe.style.width = '50%';
+            }
+
             multiScreenContent.appendChild(iframe);
+
+            // If the selected stream is an Ekstraklasa event, update the main player view
+            if (stream.matchId.startsWith('ekstraklasa') && stream.playerUrls.length === 3) {
+              loadPlayer(stream.url, stream.matchId, stream.playerNames, stream.playerUrls);
+            }
           }
         });
         multiScreenModal.style.display = 'flex';
       } else {
         multiScreenModal.style.display = 'none';
-        alert('Wybierz dwa wydarzenia do wyświetlenia!');
+        alert(`Wybierz ${streamCount} wydarzenia do wyświetlenia!`);
       }
     }
 
@@ -1312,6 +1518,9 @@
       multiScreenContent.innerHTML = '';
       multiScreenModal.style.display = 'none';
       selectedStreams = [];
+      streamCount = 4;
+      document.getElementById('stream-count').value = '4';
+      resetPlayer();
     }
 
     function retryLoad(iframe, url, attempt, matchName) {
@@ -1355,9 +1564,6 @@
         return false;
       }
     });
-
-    // Ensure fullscreen button is hidden initially
-    document.getElementById('fullscreen-button').style.display = 'none';
   </script>
   <script>
     const targetDate = new Date("2025-08-22T20:30:00").getTime();
@@ -1382,6 +1588,20 @@
     updateCountdown();
   </script>
 
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+
+<script type="text/javascript">
+    aclib.runInPagePush({
+        zoneId: '10295334',
+        maxAds: 2,
+    });
+</script>
+
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '10295358',
+    });
+</script>
 
 
 
