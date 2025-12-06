@@ -18,112 +18,24 @@
             background: #121212;
             color: #eee;
             font-family: 'Roboto', sans-serif;
-            overflow-y: auto; 
-            overflow-x: hidden;
+            overflow: hidden; /* USUNIĘCIE SCROLLA */
         }
 
-        /* STYLISTYKA GUI KANAŁÓW (MENU) */
-        .gui-container {
-            padding: 30px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .gui-header {
-            text-align: center;
-            margin-bottom: 30px;
-            width: 100%;
-        }
-
-        .gui-header h1 {
-            font-weight: 300;
-            color: #fff;
-            margin: 0 0 20px 0;
-            font-size: 2.5rem;
-        }
-
-        /* Wyszukiwarka */
-        .search-box {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        .search-input {
-            width: 100%;
-            padding: 15px 20px;
-            font-size: 16px;
-            background: #2a2a2a;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 50px;
-            outline: none;
-            box-sizing: border-box;
-            transition: 0.3s;
-        }
-        .search-input:focus {
-            background: #333;
-            border-color: #ff3b3b;
-            box-shadow: 0 0 10px rgba(255, 59, 59, 0.3);
-        }
-
-        /* Grid (Siatka kafelków) */
-        .channel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        .channel-card {
-            background: linear-gradient(145deg, #1e1e1e, #252525);
-            border-radius: 10px;
-            padding: 20px 10px;
-            text-align: center;
-            text-decoration: none;
-            color: #ddd;
-            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100px;
-            border: 1px solid #333;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            position: relative;
+        /* Player fullscreen bez scrolla */
+        #player {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
+            z-index: 1;
         }
 
-        .channel-card:hover {
-            transform: translateY(-5px);
-            background: #2d2d2d;
-            border-color: #ff3b3b;
-            color: #fff;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.5);
-            z-index: 2;
-        }
-
-        .card-icon {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .card-title {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.3;
-        }
-
-        /* Responsywność */
-        @media (max-width: 600px) {
-            .gui-header h1 { font-size: 1.8rem; }
-            .channel-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-            .channel-card { min-height: 90px; }
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* --- STARY STYL PLAYERA (ZACHOWANY 1:1) --- */
@@ -176,23 +88,20 @@
 </head>
 <body>
 
-    <div class="youtube-theme" data-shaka-player-container="" id="player" style="position:absolute;z-index: -1;top: 0;left: 0;width: 100%; height: 100%;object-fit: cover;">
-        <video autoplay="" data-shaka-player="" poster="" id="video" style="width:100%;height:100%;"></video>
+    <div class="youtube-theme" data-shaka-player-container="" id="player">
+        <video autoplay data-shaka-player poster="" id="video"></video>
     </div>
 
     <script>
-        // Dane z PHP
         const manifestUri = "https://n-25-31.dcs.redcdn.pl/livedash/o2/wpp/live/11/live.livx?indexMode&dvr=7200000";
         const hasDrm = true;
         const keyId = "20838b6bc2df0373e95a35538e666a2e";
         const keyHex = "6f10fbc7965f120a820e6d4dc9fcfa34";
 
         async function init() {
-            // Inicjalizacja UI
             const video = document.getElementById('video');
             const ui = video['ui'];
-            
-            // Konfiguracja UI
+
             const config = {
                 seekBarColors: {
                     base: '#4d4d4d',
@@ -214,15 +123,12 @@
             const controls = ui.getControls();
             const player = controls.getPlayer();
 
-            // Ustawienia dla Debugowania
             window.player = player;
             window.ui = ui;
 
-            // Obsługa błędów
             player.addEventListener('error', onPlayerErrorEvent);
             controls.addEventListener('error', onUIErrorEvent);
 
-            // Konfiguracja DRM z PHP
             if (hasDrm) {
                 player.configure({
                     drm: {
@@ -233,7 +139,6 @@
                 });
             }
 
-            // Próba załadowania
             try {
                 await player.load(manifestUri);
             } catch (error) {
@@ -260,7 +165,6 @@
         document.addEventListener('shaka-ui-loaded', init);
         document.addEventListener('shaka-ui-load-failed', initFailed);
 
-        // Wyłączanie Picture-in-Picture (zgodnie z oryginałem)
         document.addEventListener('DOMContentLoaded', () => {
             const videoElement = document.getElementById('video');
             if ('pictureInPictureEnabled' in document) {
