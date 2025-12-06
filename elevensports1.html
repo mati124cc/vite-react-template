@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <title>Clappr Player — ClearKey Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { margin:0; background:#0f1115; color:#fff; font-family:sans-serif; }
+    #player { width:100%; height:100vh; background:#000; }
+  </style>
+  <!-- Clappr -->
+  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <!-- dash-shaka-playback plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
+</head>
+<body>
+  <div id="player"></div>
+
+  <script>
+    // Twój manifest MPEG-DASH
+    const MPD_URL = "https://n-25-31.dcs.redcdn.pl/livedash/o2/wpp/live/11/live.livx?indexMode&dvr=7200000";
+
+    // ClearKey para (keyId : key)
+    const CLEARKEYS = {
+      "20838b6bc2df0373e95a35538e666a2e": "6f10fbc7965f120a820e6d4dc9fcfa34"
+    };
+
+    // Inicjalizacja Clappr z pluginem dash-shaka-playback
+    const player = new Clappr.Player({
+      parentId: "#player",
+      source: MPD_URL,
+      autoPlay: true,
+      mute: true,
+      plugins: [DashShakaPlayback],
+      shakaPlayback: {
+        drm: {
+          clearKeys: CLEARKEYS
+        }
+      }
+    });
+  </script>
+</body>
+</html>
