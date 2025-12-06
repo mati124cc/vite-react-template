@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eleven sports 1</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.4.2/shaka-player.ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mux.js@5.5.3/dist/mux.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.4.2/controls.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Styl ogólny dla strony */
+        body {
+            margin: 0;
+            background: #121212;
+            color: #eee;
+            font-family: 'Roboto', sans-serif;
+            overflow: hidden; /* USUNIĘCIE SCROLLA */
+        }
+
+        /* Player fullscreen bez scrolla */
+        #player {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- STARY STYL PLAYERA (ZACHOWANY 1:1) --- */
+        .youtube-theme { font-family: 'Roboto', sans-serif; }
+        .youtube-theme .shaka-bottom-controls { width: 100%; padding: 0; padding-bottom: 0; z-index: 1; display: flex; flex-direction: column; }
+        .youtube-theme .shaka-ad-controls { order: 1; }
+        .youtube-theme .shaka-controls-button-panel { order: 2; height: 40px; padding: 0 10px; }
+        .youtube-theme .shaka-range-container { margin: 4px 10px 4px 10px; top: 0; }
+        .youtube-theme .shaka-small-play-button { order: -3; }
+        .youtube-theme .shaka-mute-button { order: -2; }
+        .youtube-theme .shaka-controls-button-panel > * { margin: 0; padding: 3px 8px; color: #EEE; height: 40px; }
+        .youtube-theme .shaka-controls-button-panel > *:focus, .youtube-theme .shaka-controls-button-panel > *:hover { outline: none; color: #FFF; }
+        .youtube-theme .shaka-controls-button-panel .shaka-volume-bar-container { position: relative; z-index: 10; left: -1px; order: -1; opacity: 0; width: 0px; transition: width 0.2s cubic-bezier(0.4, 0, 1, 1); height: 3px; padding: 0; }
+        .youtube-theme .shaka-controls-button-panel .shaka-volume-bar-container:hover, .youtube-theme .shaka-controls-button-panel .shaka-volume-bar-container:focus { display: block; width: 50px; opacity: 1; padding: 0 6px; }
+        .youtube-theme .shaka-mute-button:hover + div { opacity: 1; width: 50px; padding: 0 6px; }
+        .youtube-theme .shaka-current-time { padding: 0 10px; font-size: 12px; }
+        .youtube-theme .shaka-seek-bar-container { height: 3px; position: relative; top: -1px; border-radius: 0; margin-bottom: 0; }
+        .youtube-theme .shaka-seek-bar-container .shaka-range-element { opacity: 0; }
+        .youtube-theme .shaka-seek-bar-container:hover { height: 5px; top: 0; cursor: pointer; }
+        .youtube-theme .shaka-seek-bar-container:hover .shaka-range-element { opacity: 1; cursor: pointer; }
+        .youtube-theme .shaka-seek-bar-container input[type=range]::-webkit-slider-thumb { background: #FF0000; cursor: pointer; }
+        .youtube-theme .shaka-seek-bar-container input[type=range]::-moz-range-thumb { background: #FF0000; cursor: pointer; }
+        .youtube-theme .shaka-seek-bar-container input[type=range]::-ms-thumb { background: #FF0000; cursor: pointer; }
+        .youtube-theme .shaka-video-container * { font-family: 'Roboto', sans-serif; }
+        .youtube-theme .shaka-video-container .material-icons-round { font-family: 'Material Icons Sharp'; }
+        .youtube-theme .shaka-overflow-menu, .youtube-theme .shaka-settings-menu { border-radius: 2px; background: rgba(28, 28, 28, 0.9); text-shadow: 0 0 2px rgb(0 0 0%); transition: opacity 0.1s cubic-bezier(0, 0, 0.2, 1); user-select: none; right: 10px; bottom: 50px; padding: 8px 0; min-width: 200px; }
+        .youtube-theme .shaka-settings-menu { padding: 0 0 8px 0; }
+        .youtube-theme .shaka-settings-menu button { font-size: 12px; }
+        .youtube-theme .shaka-settings-menu button span { margin-left: 33px; font-size: 13px; }
+        .youtube-theme .shaka-settings-menu button[aria-selected="true"] { display: flex; }
+        .youtube-theme .shaka-settings-menu button[aria-selected="true"] span { order: 2; margin-left: 0; }
+        .youtube-theme .shaka-settings-menu button[aria-selected="true"] i { order: 1; font-size: 18px; padding-left: 5px; }
+        .youtube-theme .shaka-overflow-menu button { padding: 0; }
+        .youtube-theme .shaka-overflow-menu button i { display: none; }
+        .youtube-theme .shaka-overflow-menu button .shaka-overflow-button-label { display: flex; justify-content: space-between; flex-direction: row; align-items: center; cursor: default; outline: none; height: 40px; flex: 0 0 100%; }
+        .youtube-theme .shaka-overflow-menu button .shaka-overflow-button-label span { flex-shrink: initial; padding-left: 15px; font-size: 13px; font-weight: 500; display: flex; align-items: center; }
+        .youtube-theme .shaka-overflow-menu span + span { color: #FFF; font-weight: 400 !important; font-size: 12px !important; padding-right: 8px; padding-left: 0 !important; }
+        .youtube-theme .shaka-overflow-menu .shaka-pip-button span + span { padding-right: 15px !important; }
+        .youtube-theme .shaka-overflow-menu .shaka-pip-button span + span:after { content: ""; }
+        .youtube-theme .shaka-back-to-overflow-button { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 12px; color: #eee; height: 40px; }
+        .youtube-theme .shaka-back-to-overflow-button .material-icons-round { font-size: 15px; padding-right: 10px; }
+        .youtube-theme .shaka-back-to-overflow-button span { margin-left: 3px !important; }
+        .youtube-theme .shaka-overflow-menu button:hover, .youtube-theme .shaka-settings-menu button:hover { background-color: rgba(255, 255, 255, 0.1); cursor: pointer; }
+        .youtube-theme .shaka-overflow-menu button:hover label, .youtube-theme .shaka-settings-menu button:hover label { cursor: pointer; }
+        .youtube-theme .shaka-overflow-menu button:focus, .youtube-theme .shaka-settings-menu button:focus { background-color: rgba(255, 255, 255, 0.1); border: none; outline: none; }
+        .youtube-theme .shaka-overflow-menu button, .youtube-theme .shaka-settings-menu button { color: #EEE; }
+        .youtube-theme .shaka-captions-off { color: #BFBFBF; }
+        .youtube-theme .shaka-overflow-menu-button { font-size: 18px; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="youtube-theme" data-shaka-player-container="" id="player">
+        <video autoplay data-shaka-player poster="" id="video"></video>
+    </div>
+
+    <script>
+        const manifestUri = "https://n-25-12.dcs.redcdn.pl/livedash/o2/wpp/live/11_extra/live.livx?indexMode&dvr=7200000";
+        const hasDrm = true;
+        const keyId = "9c8f77d5fced93edd61b1b87fbdcbfd1";
+        const keyHex = "54c914d8fc93c7a91ad09f49a0749fcf";
+
+        async function init() {
+            const video = document.getElementById('video');
+            const ui = video['ui'];
+
+            const config = {
+                seekBarColors: {
+                    base: '#4d4d4d',
+                    played: '#ff0000',
+                    buffered: '#8a8a8a',
+                },
+                volumeBarColors: {
+                    base: 'rgb(77, 77, 77)',
+                    level: 'rgb(255, 255, 255)',
+                },
+                customContextMenu: true,
+                addBigPlayButton: false,
+                contextMenuElements: ['statistics', 'loop'],
+                overflowMenuButtons: ['captions', 'cast', 'quality', 'language', 'loop', 'playback_rate', 'airplay'],
+                enableTooltips: true,
+            };
+            
+            ui.configure(config);
+            const controls = ui.getControls();
+            const player = controls.getPlayer();
+
+            window.player = player;
+            window.ui = ui;
+
+            player.addEventListener('error', onPlayerErrorEvent);
+            controls.addEventListener('error', onUIErrorEvent);
+
+            if (hasDrm) {
+                player.configure({
+                    drm: {
+                        clearKeys: {
+                            [keyId]: keyHex
+                        }
+                    }
+                });
+            }
+
+            try {
+                await player.load(manifestUri);
+            } catch (error) {
+                onPlayerError(error);
+            }
+        }
+
+        function onPlayerErrorEvent(event) {
+            onPlayerError(event.detail);
+        }
+
+        function onPlayerError(error) {
+            console.error('Error code', error.code, 'object', error);
+        }
+
+        function onUIErrorEvent(event) {
+            onPlayerError(event.detail);
+        }
+
+        function initFailed(errorEvent) {
+            console.error('Unable to load the UI library!');
+        }
+
+        document.addEventListener('shaka-ui-loaded', init);
+        document.addEventListener('shaka-ui-load-failed', initFailed);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const videoElement = document.getElementById('video');
+            if ('pictureInPictureEnabled' in document) {
+                videoElement.disablePictureInPicture = true;
+            }
+        });
+    </script>
+
+</body>
+</html>
