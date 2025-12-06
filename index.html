@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-
-
-  <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>⚽STRIMS.TOP TRANSMISJE WYDARZEŃ SPORTOWYCH⚽</title>
   <style>
@@ -197,8 +196,8 @@
       padding: 5px;
       border-radius: 5px;
       width: 99%;
-      max-width: 3600px; /* Increased for larger players */
-      height: 98vh; /* Increased for larger players */
+      max-width: 3600px;
+      height: 98vh;
       border: 2px solid #0088ff;
       box-shadow: 0 0 15px #0088ff;
       display: flex;
@@ -347,47 +346,43 @@
 
     .player-buttons-container {
       position: absolute;
-      top: 100%;
+      bottom: -10px;
       left: 0;
       width: 100%;
-      margin-top: 10px;
       text-align: left;
-      padding: 5px 10px;
+      padding: 0 10px;
       display: none;
+      transform: translateY(100%);
     }
 
-    .player-button {
-      padding: 10px 20px;
-      background-color: #0088ff;
-      color: white;
-      border: none;
-      border-radius: 5px;
+    .player-text {
+      color: #0088ff;
       cursor: pointer;
       font-size: 16px;
-      margin-right: 10px;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      margin-right: 15px;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+      display: inline-block;
     }
 
-    .player-button:hover {
-      background-color: #00aaff;
-      box-shadow: 0 0 10px #00aaff;
+    .player-text:hover {
+      color: #00aaff;
+      text-shadow: 0 0 10px #00aaff;
     }
 
-    .fullscreen-button {
-      padding: 10px 20px;
-      background-color: #0088ff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-right: 10px;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    .player-group {
+      margin-bottom: 5px;
     }
 
-    .fullscreen-button:hover {
-      background-color: #00aaff;
-      box-shadow: 0 0 10px #00aaff;
+    .player-group-label {
+      font-size: 18px;
+      font-weight: bold;
+      color: #00ccff;
+      margin-bottom: 2px;
+    }
+
+    .player-group-texts {
+      display: flex;
+      gap: 15px;
     }
 
     .modal {
@@ -546,7 +541,8 @@
         padding-bottom: 42.1875%;
       }
       .player-buttons-container {
-        margin-top: 10px;
+        bottom: -12px;
+        padding: 0 10px;
       }
       .chat-container {
         width: 25%;
@@ -581,9 +577,11 @@
       .day-schedule li {
         font-size: 16px;
       }
-      .player-button, .fullscreen-button {
+      .player-text {
         font-size: 18px;
-        padding: 12px 25px;
+      }
+      .player-group-label {
+        font-size: 20px;
       }
       .modal-content {
         padding: 25px;
@@ -602,8 +600,8 @@
       }
       .multi-screen-modal-content {
         width: 99%;
-        max-width: 3840px; /* Increased for larger players */
-        height: 99vh; /* Increased for larger players */
+        max-width: 3840px;
+        height: 99vh;
         padding: 5px;
         gap: 5px;
       }
@@ -634,7 +632,8 @@
             padding-bottom: 42.1875%;
         }
         .player-buttons-container {
-          margin-top: 10px;
+          bottom: -10px;
+          padding: 0 10px;
         }
         .chat-container {
             width: 25%;
@@ -686,8 +685,8 @@
         }
         .multi-screen-modal-content {
           width: 99%;
-          max-width: 2400px; /* Increased for larger players */
-          height: 96vh; /* Increased for larger players */
+          max-width: 2400px;
+          height: 96vh;
           padding: 5px;
           gap: 5px;
         }
@@ -778,7 +777,10 @@
         height: 100%;
       }
       .player-buttons-container {
-        margin-top: 10px;
+        position: static;
+        transform: none;
+        padding: 0 10px;
+        margin-top: 2px;
       }
       .chat-container {
         width: 100%;
@@ -909,7 +911,9 @@
       }
       .player-buttons-container {
         position: static;
-        margin-top: 10px;
+        transform: none;
+        padding: 0 10px;
+        margin-top: 2px;
       }
       .chat-container {
         width: 100%;
@@ -1002,6 +1006,12 @@
         .day-schedule li {
             font-size: 11px;
         }
+        .player-buttons-container {
+          position: static;
+          transform: none;
+          padding: 0 10px;
+          margin-top: 2px;
+        }
         #placeholder-text {
             padding: 10px 5px;
         }
@@ -1027,9 +1037,11 @@
         #countdown {
             font-size: 14px !important;
         }
-        .player-button, .fullscreen-button {
+        .player-text {
           font-size: 14px;
-          padding: 8px 15px;
+        }
+        .player-group-label {
+          font-size: 16px;
         }
         .modal-content {
           width: 98%;
@@ -1069,160 +1081,267 @@
           padding: 4px 8px;
         }
     }
+
+
   </style>
 </head>
 <body>
+
+
   <div class="top-bar">
-    <div class="logo">MMAFREEE.EU/STRUMYK</div>
+    <div class="logo">❄️MMAFREEE.EU/STRUMYK❄️</div>
     <div class="buttons">
       <button onclick="window.location.href='https://mmafreee.eu/telewizja-24-7/'"><strong>📺TV 24/7📺</strong></button>
       <button onclick="window.location.href='https://mmafreee.eu/powtorki-gal/'"><strong>🎬POWTÓRKI GAL🎬</strong></button>
       <button onclick="openMultiScreenModal()">🖥️Multi Screen🖥️</button>
+
+</div>
     </div>
   </div>
 
- <div class="layout">
+  <div class="layout">
     <div class="schedule-wrapper">
       <div class="day-buttons">
-        <button class="active" onclick="showSchedule('czwartek')">Niedz</button>
-        <button onclick="showSchedule('piatek')">Pon</button>
-        <button onclick="showSchedule('sobota')">Wt</button>
+        <button class="active" onclick="showSchedule('czwartek')">Sob</button>
+        <button onclick="showSchedule('piatek')">Niedz</button>
+        <button onclick="showSchedule('sobota')">Pon</button>
       </div>
 
       <div id="czwartek" class="day-schedule active">
-        <h3>Niedziela</h3>
+        <h3>Sobota</h3>
         <ul>
-<li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">04:00 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=684" data-match-id="none">04:50 - 🏐Siatkówka mężczyzn: Mistrzostwa świata U-21 - Chiny 2025 - mecz o 7. miejsce </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=684" data-match-id="none">07:50 - 🏐Siatkówka mężczyzn: Mistrzostwa świata U-21 - Chiny 2025 - mecz o 5. miejsce </li>
-<li class="clickable" data-url="https://polsatsportpremium5.adamkowalski345687.workers.dev/" data-match-id="none">08:55 - 🛶Kajakarstwo górskie: Zawody Pucharu Świata w Tacen</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=669" data-match-id="none">10:35 - 🏎️F1 Academy: Grand Prix Holandii</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=686" data-match-id="none">10:50 - 🏐Siatkówka mężczyzn: Mistrzostwa świata U-21 - Chiny 2025 - mecz o 3. miejsce </li>
-<li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">11:40 - 🏎️Porsche Supercup: Wyścig w Holandii</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=687" data-match-id="none">11:40 - ⚽Piłka nożna kobiet: ORLEN Ekstraliga - mecz: Stomilanki Olsztyn - Pogoń Szczecin  </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=684" data-match-id="none">11:45 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz 1/8 finału: Chiny - Francja </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=8" data-match-id="none">12:30 - 🏍️Żużel: Metalkas 2. Ekstraliga - rewanżowy mecz o 5-6 miejsce: H. Skrzydlewska Orzeł Łódź - Moonfin Malesa Ostrów Wlkp. </li>
-<li class="clickable" data-url="https://polsatsportpremium3.adamkowalski345687.workers.dev/" data-match-id="none">12:30 - 🏌️Golf: Omega European Masters</li>
-<li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">12:45 - 🚴‍♀️Kolarstwo górskie: Zawody Pucharu Świata w Górnej Sabaudii - cross-country kobiet</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=669" data-match-id="none" style="color: lime;">12:55 - 🏎️Formuła 1: Grand Prix Holandii - parada kierowców</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=686" data-match-id="none">12:55 - ⚽Piłka nożna: Liga szkocka - mecz: Rangers FC - Celtic FC  </li>
-<li class="clickable" data-url="https://polsatsportpremium6.adamkowalski345687.workers.dev/" data-match-id="none">13:00 - 🏸Badminton: Mistrzostwa Świata - Paryż 2025 - mecze finałowe</li>
-<li class="clickable" data-url="https://embedsports.top/embed/alpha/flanders-darts-trophy-day-3-session-1/1" data-match-id="none">13:00 - 🎯Dart: Blåkläder Flanders Darts Trophy (ET10)</li>
-<li class="clickable" data-url="https://motowizja.adamkowalski345687.workers.dev/" data-match-id="none">13:15 - 🏎️Rajdowe Mistrzostwa Świata: Rajd Paragwaju</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=670" data-match-id="none">13:30 - ⚽Piłka nożna: 2. liga niemiecka - mecz: FC Kaiserslautern - SV Darmstadt 98  </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=685" data-match-id="none">13:50 - 🏐Siatkówka mężczyzn: Mistrzostwa świata U-21 - Chiny 2025 - mecz finałowy </li>
-<li class="clickable" data-url="https://e2link.link/ch.php?id=20" data-match-id="none">14:00 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Słowenia - Belgia </li>
-<li class="clickable" data-url="https://embedsports.top/embed/alpha/georgia-vs-greece/2" data-match-id="none">14:00 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Gruzja - Grecja </li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=687">10:00 – 🏊Pływanie: ME Lublin dz.5 – sesja poranna</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/eurosport1.html">10:00 – ⛷️Biegi narciarskie: PŚ Trondheim – 5 km kobiet</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/motowizja.html">10:30 – 🏎️Karting: Rotax Grand Finals Bahrain cz.2 – live</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/eurosport1.html">11:00 – ⛷️Biegi narciarskie: PŚ Trondheim – bieg łączony mężczyzn</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports1.html" style="color: lime;">11:00 – 🏎️Formuła 1: GP Abu Zabi – 3. trening</li>
+<li class="clickable" data-url="https://security.freefreaks.top/player.php?id=ESP2__HD-embed">12:00 – ⛸️Łyżwiarstwo figurowe: Grand Prix Final Nagoja – program dowolny mężczyzn</li>
 
-<li class="clickable" data-url="https://sport.tvp.pl/88540079/stal-mielec-ruch-chorzow-na-zywo-transmisja-online-meczu-betclic-1-ligi-live-stream-31082025-gdzie-ogladac" data-match-id="none" style="color: lime;">14:30 - ⚽Piłka nożna: Betclic 1. Liga - mecz: FKS Stal Mielec - Ruch Chorzów </li>
-<li class="clickable" data-url="https://polsatsportpremium4.adamkowalski345687.workers.dev/" data-match-id="none">14:30 - ⚽Piłka nożna: Liga holenderska - mecz: Sparta Rotterdam - Feyenoord Rotterdam  </li>
-<li class="clickable" data-url="https://polsatsportpremium2.adamkowalski345687.workers.dev/" data-match-id="none">14:35 - 🏊‍♀️🚴‍♂️🏃‍♂️Triathlon: Zawody World Triathlon Championship Series na Lazurowym Wybrzeżu - wyścig mężczyzn</li>
-<li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">14:45 - 🚴‍♀️Kolarstwo: Vuelta a Espana - 9. etap: Alfaro - Valdezcaray</li>
-<li class="clickable" data-url="https://eurosport2.adamkowalski345687.workers.dev/" data-match-id="none">14:45 - 🚴‍♀️Kolarstwo górskie: Zawody Pucharu Świata w Górnej Sabaudii - cross-country mężczyzn</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=669" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1 ULTRA HD🇵🇱", "🇵🇱Player 2 HD🇵🇱", "🇬🇧Player 3 SKY SPORTS🇬🇧"]' data-player-urls='["https://streambetter.cyou/play/play.php?id=669", "https://elevensports1.adamkowalski345687.workers.dev/", "https://embedsports.top/embed/alpha/fia-formula-1-2025-netherlands-f1gp-pre-race/1"]' style="color: lime;">14:55 - 🏎️Formuła 1: Grand Prix Holandii </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=672" data-match-id="none">14:55 - ⚽Piłka nożna: Liga francuska - mecz: Angers SCO - Stade Rennais FC  </li>
-<li class="clickable" data-url="https://crimsdddd.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://crimsdddd.adamkowalski345687.workers.dev/", "https://streambetter.cyou/play/play.php?id=5412", "https://streambetter.cyou/embed/special/PL/canalplusextra1.php"]' style="color: lime;">15:00 - ⚽Piłka nożna: Premier League: Brighton & Hove Albion - Manchester City </li>
-<li class="clickable" data-url="https://jebacanalextra2.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://jebacanalextra2.adamkowalski345687.workers.dev/", "https://streambetter.cyou/play/play.php?id=660", "https://streambetter.cyou/embed/special/PL/canalplusextra2.php"]' style="color: lime;">15:00 - ⚽Piłka nożna: Premier League: Nottingham Forest - West Ham United </li>
-<li class="clickable" data-url="https://polsatsportfight.adamkowalski345687.workers.dev/" data-match-id="none">15:00 - 🏈Futbol amerykański: Europejska Liga Futbolu - mecz półfinałowy: Munich Ravens - Stuttgart Surge </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=8" data-match-id="none">15:00 - 🏍️Żużel: Metalkas 2. Ekstraliga - rewanżowy mecz półfinałowy fazy play-off: Abramczyk Polonia Bydgoszcz - Cellfast Wilki Krosno </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=684" data-match-id="none">15:15 - 🏐Siatkówka mężczyzn: Memoriał Huberta Wagnera - mecz: Brazylia - Serbia </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=686" data-match-id="none">15:15 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz 1/8 finału: Brazylia - Dominikana </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=671" data-match-id="none">15:30 - ⚽Piłka nożna: Liga niemiecka - mecz: VfL Wolfsburg - 1. FSV Mainz 05  </li>
-<li class="clickable" data-url="https://polsatsportpremium6.adamkowalski345687.workers.dev/" data-match-id="none">15:40 - 🏒Hokej: Liga Mistrzów - mecz: ZSC Lions Zurych - GKS Tychy </li>
-<li class="clickable" data-url="https://polsatsportpremium2.adamkowalski345687.workers.dev/" data-match-id="none">16:00 - 🏐Siatkówka plażowa: Turniej World Beach Pro Tour Elite 16 w Hamburgu - mecz o 3. miejsce mężczyzn </li>
-<li class="clickable" data-url="https://polsatsportpremium4.adamkowalski345687.workers.dev/" data-match-id="none">16:20 - 🏊‍♀️🚴‍♂️🏃‍♂️Triathlon: WTCS - French Riviera - wyścig kobiet</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=687" data-match-id="none">16:25 - 🏇Wyścigi konne: Służewiec 2025 - Nagroda St. Leger</li>
-<li class="clickable" data-url="https://eurosport2.adamkowalski345687.workers.dev/" data-match-id="none">16:30 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 4. rundy gry pojedynczej</li>
-<li class="clickable" data-url="https://embedsports.top/embed/alpha/israel-vs-france/1" data-match-id="none">17:00 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Izrael - Francja </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=5" data-match-id="none">17:00 - ⚽Piłka nożna: Liga hiszpańska - mecz: Celta Vigo - Villarreal CF  </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=8" data-match-id="none">17:15 - 🏍️Żużel: Metalkas 2. Ekstraliga - rewanżowy mecz półfinałowy fazy play-off: FOGO Unia Leszno - Texom Stal Rzeszów </li>
-<li class="clickable" data-url="" data-match-id="none">17:15 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Hiszpania - Cypr </li>
-<li class="clickable" data-url="https://crimsdddd.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://crimsdddd.adamkowalski345687.workers.dev/", "https://streambetter.cyou/play/play.php?id=5412", "https://streambetter.cyou/embed/special/PL/canalplusextra1.php"]' style="color: lime;">17:30 - ⚽Piłka nożna: Premier League: Liverpool FC - Arsenal FC </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=2093" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://streambetter.cyou/play/play.php?id=2093", "https://streambetter.cyou/embed/special/PL/canalplussport3.php", "https://playnow.wtf/player/9270"]' style="color: lime;">17:30 - ⚽Piłka nożna: PKO BP Ekstraklasa - mecz: Lech Poznań - Widzew Łódź</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=7" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://streambetter.cyou/play/play.php?id=7", "https://streambetter.cyou/embed/special/PL/canalplussport4.php", "https://playnow.wtf/player/9270"]' style="color: lime;">17:30 - ⚽Piłka nożna: PKO BP Ekstraklasa - mecz: Jagiellonia Białystok - Lechia Gdańsk</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=670" data-match-id="none">17:30 - ⚽Piłka nożna: Liga niemiecka - mecz: Borussia Dortmund - 1. FC Union Berlin  </li>
-<li class="clickable" data-url="https://polsatsportpremium4.adamkowalski345687.workers.dev/" data-match-id="none">17:30 - 🏒Hokej: Liga Mistrzów - mecz: Red Bull Salzburg - Pinguins Bremerhaven </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=669" data-match-id="none">18:30 - ⚽Piłka nożna: Liga włoska - mecz: Genoa CFC - Juventus FC  </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=672" data-match-id="none">18:30 - ⚽Piłka nożna: Liga włoska - mecz: Torino FC - ACF Fiorentina  </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=6" data-match-id="none">19:00 - ⚽Piłka nożna: Liga hiszpańska - mecz: Real Betis Balompie - Athletic Club  </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=5" data-match-id="none">19:15 - 🏍️Żużel: PGE Ekstraliga - rewanżowy mecz o 5-6 miejsce: Gezet Stal Gorzów - KRONO-PLAST Włókniarz Częstochowa </li>
-<li class="clickable" data-url="https://elevensports3.adamkowalski345687.workers.dev/" data-match-id="none">19:30 - ⚽Piłka nożna: Liga niemiecka - mecz: 1. FC Köln - SC Freiburg  </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=706" data-match-id="none" style="color: lime;">19:30 - ⚽Piłka nożna: Betclic 2. Liga - mecz: Sandecja Nowy Sącz - Chojniczanka Chojnice </li>
-<li class="clickable" data-url="https://polsatsport2.adamkowalski345687.workers.dev/" data-match-id="none">20:00 - ⚽Piłka nożna: Liga czeska - mecz: AC Sparta Praga - FC Zlin  </li>
-<li class="clickable" data-url="https://crimsdddd.adamkowalski345687.workers.dev/" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://crimsdddd.adamkowalski345687.workers.dev/", "https://streambetter.cyou/play/play.php?id=5412", "https://streambetter.cyou/embed/special/PL/canalplusextra1.php"]' style="color: lime;">20:00 - ⚽Piłka nożna: Premier League: Aston Villa - Crystal Palace </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=2093" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://streambetter.cyou/play/play.php?id=2093", "https://streambetter.cyou/embed/special/PL/canalplussport3.php", "https://playnow.wtf/player/9270"]' style="color: lime;">20:15 - ⚽Piłka nożna: PKO BP Ekstraklasa - mecz: Cracovia - Legia Warszawa</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=7" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://streambetter.cyou/play/play.php?id=7", "https://streambetter.cyou/embed/special/PL/canalplussport4.php", "https://playnow.wtf/player/9270"]' style="color: lime;">20:15 - ⚽Piłka nożna: PKO BP Ekstraklasa - mecz: Pogoń Szczecin - Raków Częstochowa</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=687" data-match-id="none" style="color: lime;">20:30 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Polska - Islandia </li>
-<li class="clickable" data-url="" data-match-id="none">20:30 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Bośnia i Hercegowina - Włochy </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=684" data-match-id="none" style="color: lime;">20:30 - 🏐Siatkówka mężczyzn: Memoriał Huberta Wagnera - mecz: Polska - Argentyna </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=670" data-match-id="none">20:45 - ⚽Piłka nożna: Liga włoska - mecz: Inter Mediolan - Udinese Calcio  </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=672" data-match-id="none">20:45 - ⚽Piłka nożna: Liga włoska - mecz: SS Lazio - Hellas Werona  </li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=669" data-match-id="ekstraklasa2" data-player-names='["🇵🇱Player 1🇵🇱", "🇵🇱Player 2🇵🇱", "🇵🇱Player 3🇵🇱"]' data-player-urls='["https://streambetter.cyou/play/play.php?id=669", "https://elevensports1.adamkowalski345687.workers.dev/", "https://streambetter.cyou/embed/special/PL/elevensports1.php"]' style="color: lime;">21:30 - ⚽Piłka nożna: Liga hiszpańska - mecz: Rayo Vallecano - FC Barcelona</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=2093" data-match-id="none">22:15 - 📺Liga+ Extra - magazyn</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=669" data-match-id="none">23:45 - 📺Eleven Gol Live - magazyn</li>
+<!-- EKSTRAKLASA 12:00 – 6 PLAYERÓW -->
+<li class="clickable"
+    data-url="https://streambetter.cyou/play/play.php?id=2093"
+    data-match-id="ekstraklasa-arka-motor"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-arka-vs-motor/1","https://embedsports.top/embed/admin/ppv-arka-vs-motor/2","https://embedsports.top/embed/admin/ppv-arka-vs-motor/3","https://streambetter.cyou/play/play.php?id=5","https://streambetter.cyou/play/play.php?id=2093","https://streambetter.cyou/play/play.php?id=7"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    12:15 – ⚽Piłka nożna: Ekstraklasa – Arka Gdynia – Motor Lublin
+</li>
+
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=684">12:30 – 🏐Siatkówka: PlusLiga – Zawiercie – Ślepsk Suwałki</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports1.html">13:00 – 🏎️Formuła 2: Abu Dhabi – sprint</li>
+<li class="clickable" data-url="https://security.freefreaks.top/player.php?id=ESP2__HD-embed">13:00 – ⛸️Łyżwiarstwo figurowe: Grand Prix Final Nagoja – program dowolny kobiet</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/eurosport1.html">13:00 – ⛷️Biegi narciarskie: PŚ Trondheim – bieg łączony kobiet</li>
+<li class="clickable" data-url="https://security.freefreaks.top/player.php?id=pspremium1-embed">13:00 – ⚽Piłka nożna: WSL – Liverpool – Arsenal</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports2.html">13:00 – ⚽Piłka nożna: 2. Bundesliga – Paderborn – Elversberg</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports3.html">13:00 – ⚽Piłka nożna: 2. Bundesliga – Bochum – Bielefeld</li>
+<li class="clickable"
+    data-url="https://streambetter.cyou/play/play.php?id=5412"
+    data-match-id="ekstraklasa-astonvilla-arsenal"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player2","Player3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-aston-villa-vs-arsenal/1","https://embedsports.top/embed/admin/ppv-aston-villa-vs-arsenal/1","https://embedsports.top/embed/admin/ppv-aston-villa-vs-arsenal/1","https://streambetter.cyou/play/play.php?id=5412","https://streambetter.cyou/play/play.php?id=660","https://streambetter.cyou/play/play.php?id=661"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    13:30 – ⚽Piłka nożna: Premier League – Aston Villa – Arsenal
+</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=5">14:00 – ⚽Piłka nożna: LaLiga – Villarreal – Getafe</li>
+<li class="clickable" data-url="https://daddyhd.com/player/stream-58.php">14:00 – 🎱Snooker: UK Championship – półfinały</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=686">14:00 – ⛸️Łyżwiarstwo szybkie: PŚ Heerenveen</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/motowizja.html">14:30 – 🏎️Rajdy: Trzy Pokolenia Rajdowe – live</li>
+
+<!-- EKSTRAKLASA 14:45 – 6 PLAYERÓW -->
+<li class="clickable"
+    data-url="https://embedsports.top/embed/bravo/1765028700000-pogon-szczecin-radomiak-radom/1"
+    data-match-id="ekstraklasa-pogon-radomiak"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-pogon-vs-radomiak/1","https://embedsports.top/embed/admin/ppv-pogon-vs-radomiak/2","https://embedsports.top/embed/admin/ppv-pogon-vs-radomiak/3","https://embedsports.top/embed/bravo/1765028700000-pogon-szczecin-radomiak-radom/1","https://streambetter.cyou/play/play.php?id=2093","https://streambetter.cyou/play/play.php?id=7"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    14:45 – ⚽Piłka nożna: Ekstraklasa – Pogoń Szczecin – Radomiak Radom
+</li>
+
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=687">14:45 – 🎿Skoki narciarskie: PŚ Wisła – konkurs mężczyzn (TVP1/TVP Sport)</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/eurosport1.html">14:45 – 🎿Skoki narciarskie: PŚ Wisła – konkurs mężczyzn (EUROSPORT)</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=684">14:45 – 🏐Siatkówka: PlusLiga – Częstochowa – Projekt Warszawa</li>
+<li class="clickable" data-url="https://embedsports.top/embed/admin/ppv-sassuolo-vs-fiorentina/1">15:00 – ⚽Piłka nożna: Serie A – Sassuolo - Fiorentina</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports1.html" style="color: lime;">15:00 – 🏎️Formuła 1: GP Abu Zabi – kwalifikacje</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=686">15:00 – 🏀Koszykówka: PLK – Legia Warszawa – Trefl Sopot</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports4.html">15:30 – ⚽Piłka nożna: Bundesliga – Goal Arena 13. kolejka</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports2.html">15:30 – ⚽Piłka nożna: Bundesliga – Stuttgart – Bayern Monachium</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports3.html">15:30 – ⚽Piłka nożna: Bundesliga – Köln – St. Pauli</li>
+<li class="clickable" data-url="https://embedsports.top/embed/admin/ppv-wolfsburg-vs-union-berlin/1">15:30 – ⚽Piłka nożna: Bundesliga – Wolfsburg - Union Berlin</li>
+<li class="clickable" data-url="https://embedsports.top/embed/admin/ppv-augsburg-vs-leverkusen/1">15:30 – ⚽Piłka nożna: Bundesliga – FC Augsburg - Bayer Leverkusen</li>
+<li class="clickable" data-url="https://embedsports.top/embed/admin/ppv-heidenheim-vs-freiburg/1">15:30 – ⚽Piłka nożna: Bundesliga – FC Heidenheim - Freiburg</li>
+<li class="clickable" data-url="https://embedsports.top/embed/admin/ppv-goal-rush/1" style="color: yellow;">16:00 – ⚽Piłka nożna: Multiliga Premier League</li>
+<!-- PREMIER LEAGUE 16:00 – KAŻDY MECZ OSOBNO Z 6 PLAYERAMI -->
+<li class="clickable"
+    data-url="https://embedsports.top/embed/admin/ppv-mancity-vs-sunderland/1"
+    data-match-id="ekstraklasa-mancity-sunderland"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-mancity-vs-sunderland/1","https://embedsports.top/embed/admin/ppv-mancity-vs-sunderland/2","https://embedsports.top/embed/admin/ppv-mancity-vs-sunderland/3","https://streambetter.cyou/play/play.php?id=660","https://streambetter.cyou/play/play.php?id=660","https://streambetter.cyou/play/play.php?id=661"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    16:00 – ⚽Piłka nożna: Premier League – Manchester City – Sunderland
+</li>
+<li class="clickable"
+    data-url="https://embedsports.top/embed/admin/ppv-bournemouth-vs-chelsea/1"
+    data-match-id="ekstraklasa-bournemouth-chelsea"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-bournemouth-vs-chelsea/1","https://embedsports.top/embed/admin/ppv-bournemouth-vs-chelsea/2","https://embedsports.top/embed/admin/ppv-bournemouth-vs-chelsea/3","https://streambetter.cyou/play/play.php?id=661","https://streambetter.cyou/play/play.php?id=661","https://streambetter.cyou/play/play.php?id=661"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    16:00 – ⚽Piłka nożna: Premier League – Bournemouth – Chelsea
+</li>
+<li class="clickable"
+    data-url="https://embedsports.top/embed/admin/ppv-tottenham-vs-brentford/1"
+    data-match-id="ekstraklasa-tottenham-brentford"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-tottenham-vs-brentford/1","https://embedsports.top/embed/admin/ppv-tottenham-vs-brentford/2","https://embedsports.top/embed/admin/ppv-tottenham-vs-brentford/3","https://streambetter.cyou/play/play.php?id=330","https://streambetter.cyou/play/play.php?id=330","https://streambetter.cyou/play/play.php?id=661"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    16:00 – ⚽Piłka nożna: Premier League – Tottenham – Brentford
+</li>
+<li class="clickable"
+    data-url="https://embedsports.top/embed/admin/ppv-newcastle-vs-burnley/1"
+    data-match-id="ekstraklasa-newcastle-burnley"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-newcastle-vs-burnley/1","https://embedsports.top/embed/admin/ppv-newcastle-vs-burnley/2","https://embedsports.top/embed/admin/ppv-newcastle-vs-burnley/3","https://streambetter.cyou/play/play.php?id=331","https://streambetter.cyou/play/play.php?id=331","https://streambetter.cyou/play/play.php?id=661"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    16:00 – ⚽Piłka nożna: Premier League – Newcastle – Burnley
+</li>
+<li class="clickable"
+    data-url="https://embedsports.top/embed/admin/ppv-everton-vs-nottingham/1"
+    data-match-id="ekstraklasa-everton-nottingham"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-everton-vs-nottingham/1","https://embedsports.top/embed/admin/ppv-everton-vs-nottingham/2","https://embedsports.top/embed/admin/ppv-everton-vs-nottingham/3","https://streambetter.cyou/play/play.php?id=716","https://streambetter.cyou/play/play.php?id=716","https://streambetter.cyou/play/play.php?id=661"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    16:00 – ⚽Piłka nożna: Premier League – Everton – Nottingham Forest
+</li>
+
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=5">16:00 – ⚽Piłka nożna: LaLiga – Alaves – Real Sociedad</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/tvp3.html" style="color: lime;">16:30 – ⚽Piłka nożna: 1. Liga – Miedź Legnica – Odra Opole</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=687">16:45 – 🎿Biathlon: PŚ Östersund – sprint 10 km mężczyzn</li>
+
+<!-- EKSTRAKLASA 17:30 – 6 PLAYERÓW -->
+<li class="clickable"
+    data-url="https://streambetter.cyou/play/play.php?id=2093"
+    data-match-id="ekstraklasa-zaglebie-widzew"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-zaglebie-vs-widzew/1","https://embedsports.top/embed/admin/ppv-zaglebie-vs-widzew/2","https://embedsports.top/embed/admin/ppv-zaglebie-vs-widzew/3","https://streambetter.cyou/play/play.php?id=5","https://streambetter.cyou/play/play.php?id=2093","https://streambetter.cyou/play/play.php?id=7"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    17:30 – ⚽Piłka nożna: Ekstraklasa – Zagłębie Lubin – Widzew Łódź
+</li>
+
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=684">17:30 – 🏐Siatkówka: PlusLiga – Jastrzębie – Resovia</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports2.html">18:00 – ⚽Piłka nożna: Serie A – Inter – Como</li>
+<li class="clickable" data-url="https://security.freefreaks.top/player.php?id=ESP2__HD-embed">18:00 – 🏌️Golf: World Challenge PGA Tour – 3. dzień</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/eurosport1.html">18:00 – ⛷️Narciarstwo alpejskie: PŚ Beaver Creek – supergigant mężczyzn</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports3.html">18:30 – ⚽Piłka nożna: Bundesliga – RB Lipsk – Eintracht Frankfurt</li>
+
+<!-- BETIS – BARCELONA 18:30 – 6 PLAYERÓW -->
+<li class="clickable"
+    data-url="https://mmafreee.eu/stream/elevensports1.html"
+    data-match-id="ekstraklasa-betis-barcelona"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-betis-vs-barcelona/1","https://embedsports.top/embed/admin/ppv-betis-vs-barcelona/2","https://embedsports.top/embed/admin/ppv-betis-vs-barcelona/3","https://streambetter.cyou/play/play.php?id=5412","https://streambetter.cyou/play/play.php?id=660","https://streambetter.cyou/play/play.php?id=661"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    18:30 – ⚽Piłka nożna: LaLiga – Real Betis – FC Barcelona 
+</li>
+
+<!-- LEEDS – LIVERPOOL 18:30 – 6 PLAYERÓW -->
+<li class="clickable"
+    data-url="https://streambetter.cyou/play/play.php?id=5412"
+    data-match-id="ekstraklasa-leeds-liverpool"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-leeds-vs-liverpool/1","https://embedsports.top/embed/admin/ppv-leeds-vs-liverpool/2","https://embedsports.top/embed/admin/ppv-leeds-vs-liverpool/3","https://streambetter.cyou/play/play.php?id=5412","https://streambetter.cyou/play/play.php?id=660","https://streambetter.cyou/play/play.php?id=661"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    18:30 – ⚽Piłka nożna: Premier League – Leeds United – Liverpool
+</li>
+
+<li class="clickable" data-url="https://mmafreee.eu/stream/motowizja.html">18:30 – 🏍️Supercross: FIM World Supercross Sztokholm – live</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/jebany.html" data-match-id="prime_mma_14" data-player-names='["PPV1", "PPV2", "PPV3"]' data-player-urls='["https://mmafreee.eu/stream/jebany.html", "https://mmafreee.eu/stream/jebany.html", "https://mmafreee.eu/stream/jebany.html"]' style="color: red;">18:30 - 🥊CLASH MMA 14: STRANGER (NATAN MARCOŃ)🥊</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=742">18:45 – ⚽Piłka nożna: Eredivisie – Sittard – Ajax</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports4.html">19:00 – ⚽Piłka nożna: Ligue 1 – Toulouse – Strasbourg</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=687">19:00 – 🏊Pływanie: ME Lublin – sesja wieczorna</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=743">19:00 – 🥊Cage Warriors 199 Newcastle</li>
+
+<!-- EKSTRAKLASA 20:00 – 6 PLAYERÓW -->
+<li class="clickable"
+    data-url="https://streambetter.cyou/play/play.php?id=2093"
+    data-match-id="ekstraklasa-piast-legia"
+    data-player-names='["Player 1","Player 2","Player 3","Player 1","Player 2","Player 3"]'
+    data-player-urls='["https://embedsports.top/embed/admin/ppv-piast-vs-legia/1","https://embedsports.top/embed/admin/ppv-piast-vs-legia/2","https://embedsports.top/embed/admin/ppv-piast-vs-legia/3","https://streambetter.cyou/play/play.php?id=5","https://streambetter.cyou/play/play.php?id=2093","https://streambetter.cyou/play/play.php?id=7"]'
+    data-player-languages='["en","en","en","pl","pl","pl"]'
+    style="color: lime;">
+    20:15 – ⚽Piłka nożna: Ekstraklasa – Piast Gliwice – Legia Warszawa 
+</li>
+
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=684">20:00 – 🏐Siatkówka: PlusLiga – Lublin – Olsztyn</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports3.html">20:30 – ⚽Piłka nożna: 2. Bundesliga – Darmstadt – Karlsruher</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports1.html">20:45 – ⚽Piłka nożna: Serie A – Verona – Atalanta</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=5">21:00 – ⚽Piłka nożna: LaLiga – Athletic Bilbao – Atlético Madryt</li>
+<li class="clickable" data-url="https://mmafreee.eu/stream/elevensports2.html">21:00 – ⚽Piłka nożna: Ligue 1 – PSG – Rennes</li>
+<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=687">21:00 – 📺Sportowy Wieczór</li>
+
 
 
         </ul>
       </div>
 
       <div id="piatek" class="day-schedule">
-        <h3>Poniedziałek</h3>
+        <h3>Niedziela</h3>
         <ul>
-<li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">04:00 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 1. rundy gry pojedynczej</li>
-<li class="clickable" data-url="https://polsatsport1.adamkowalski345687.workers.dev/" data-match-id="none">11:45 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz 1/8 finału: USA - Kanada </li>
-<li class="clickable" data-url="https://polsatsport1.adamkowalski345687.workers.dev/" data-match-id="none">15:15 - 🏐Siatkówka kobiet: Mistrzostwa świata - Tajlandia 2025 - mecz 1/8 finału: Turcja - Słowenia </li>
-<li class="clickable" data-url="https://tvpsport.adamkowalski345687.workers.dev/" data-match-id="none">15:20 - 🏀Koszykówka mężczyzn: EuroBasket 2025 - mecz: Niemcy - Wielka Brytania </li>
-<li class="clickable" data-url="https://eurosport1.adamkowalski345687.workers.dev/" data-match-id="none">17:00 - 🎾Tenis: Turniej US Open w Nowym Jorku - mecz 4. rundy gry pojedynczej</li>
-<li class="clickable" data-url="https://tvpsport.adamkowalski345687.workers.dev/" data-match-id="none">18:10 - ⚽︎Futsal: FOGO Futsal Ekstraklasa - mecz: Futsal Świecie - Legia Warszawa </li>
-<li class="clickable" data-url="https://crimsdddd.adamkowalski345687.workers.dev/" data-match-id="none">19:30 - 📺Jej Wysokość Premier League - magazyn</li>
-<li class="clickable" data-url="https://streambetter.cyou/play/play.php?id=2093" data-match-id="none">21:00 - 📺Ekstraklasa po godzinach - magazyn</li>
-<li class="clickable" data-url="https://elevensports1.adamkowalski345687.workers.dev/" data-match-id="none">21:00 - 📺Magazyn PGE Ekstraligi</li>
-<li class="clickable" data-url="https://tvpsport.adamkowalski345687.workers.dev/" data-match-id="none">21:35 - 📺GOL - magazyn</li>
 
         </ul>
       </div>
 
       <div id="sobota" class="day-schedule">
-        <h3>Wtorek</h3>
+        <h3>Poniedziałek</h3>
         <ul>
-
 
         </ul>
       </div>
     </div>
     <div class="main-content">
       <div class="player-container">
-        <div id="placeholder-text">
+        
+
+       
+         <div id="placeholder-text">
           <div style="text-align: center; margin-bottom: 10px;"></div>
           <div>
             <p>📣 WAŻNE OGŁOSZENIE</p>
-<p>
-  <a href="https://mmafreee.eu/us-open/" 
-     style="color: yellow; font-weight: bold; text-decoration: underline; outline: none;" 
-     target="_blank" 
-     rel="noopener noreferrer">
-    🎾US OPEN 2025 WSZYSTKIE KORTYf🎾
-  </a>
-</p>
+            
             <p>Od teraz transmisje dostępne są na <strong>nowej stronie!</strong></p>
             <p>🔥 Szybsze ładowanie, lepszy czat, więcej wydarzeń sportowych!</p>
             <p>👉 Kliknij wydarzenie po lewej, aby rozpocząć transmisję.</p>
             <p>👉 Kliknij Multi Screen, aby oglądać 2, 3 lub 4 wydarzenia jednocześnie</p>
             <p>⌛ Wydarzenia będą dodawane sukcesywnie</p>
             <p>ℹ️Aby w pełni wykorzystać możliwości naszej strony, polecamy korzystać z przeglądarki Brave.</p>
-            <p>22 SIERPNIA STARTUJE BUNDESLIGA, WSZYSTKIE MECZE DO OBEJRZENIA TYLKO U NAS</p>
+            <p>5 GRUDNIA BĘDZIE TRANSMITOWANA GALA GROMDA 23</p>
             <div id="countdown" style="color: #0ff; margin-top: 20px;"></div>
-<a href="https://strefafilmowa.byethost14.com/kontakt.php" target="_blank">
-      <img src="https://mmafreee.eu/wp-content/uploads/2025/08/baner.png" alt="Baner" style="max-width: 100%; height: auto; margin-top: 20px;">
-    </a>
+           
+             <img src="https://mmafreee.eu/strumyk/banerek.png" alt="Baner" style="max-width:100%; height:auto; margin-top:20px;">
+
+
+            </a>
           </div>
         </div>
         <div id="player-wrapper"></div>
         <div class="player-buttons-container" id="player-buttons">
-          <button class="player-button" id="player1-button">Player 1</button>
-          <button class="player-button" id="player2-button">Player 2</button>
-          <button class="player-button" id="player3-button">Player 3</button>
-          <button class="fullscreen-button" id="fullscreen-button">Pełny ekran</button>
+          <div class="player-group" id="angielski-group">
+            <div class="player-group-label">Angielski</div>
+            <div class="player-group-texts" id="angielski-texts"></div>
+          </div>
+          <div class="player-group" id="polski-group">
+            <div class="player-group-label">Polski</div>
+            <div class="player-group-texts" id="polski-texts"></div>
+          </div>
         </div>
       </div>
 
@@ -1277,22 +1396,24 @@
       const wrapper = document.getElementById('player-wrapper');
       const placeholder = document.getElementById('placeholder-text');
       const playerButtonsContainer = document.getElementById('player-buttons');
+      const polskiTexts = document.getElementById('polski-texts');
+      const angielskiTexts = document.getElementById('angielski-texts');
       wrapper.innerHTML = '';
       placeholder.style.display = 'flex';
       playerButtonsContainer.style.display = 'none';
+      polskiTexts.innerHTML = '';
+      angielskiTexts.innerHTML = '';
       selectedStreams = [];
       closeMultiScreenDisplay();
-      exitFullscreen();
     }
 
-    function loadPlayer(url, matchId, playerNames = ['Player 1', 'Player 2', 'Player 3'], playerUrls = []) {
+    function loadPlayer(url, matchId, playerNames = ['Player 1', 'Player 2', 'Player 3', 'Player 4', 'Player 5', 'Player 6'], playerUrls = []) {
       const wrapper = document.getElementById('player-wrapper');
       const placeholder = document.getElementById('placeholder-text');
       const playerButtonsContainer = document.getElementById('player-buttons');
-      const player1Button = document.getElementById('player1-button');
-      const player2Button = document.getElementById('player2-button');
-      const player3Button = document.getElementById('player3-button');
-      const fullscreenButton = document.getElementById('fullscreen-button');
+      const polskiTexts = document.getElementById('polski-texts');
+      const angielskiTexts = document.getElementById('angielski-texts');
+      const angielskiGroup = document.getElementById('angielski-group');
 
       wrapper.innerHTML = '';
       placeholder.style.display = 'none';
@@ -1308,60 +1429,62 @@
         placeholder.style.display = 'flex';
       }
 
-      if (matchId && matchId.startsWith('ekstraklasa')) {
+      if (matchId && (matchId.startsWith('ekstraklasa') || matchId === 'ksw110' || matchId === 'prime_mma_14') && playerUrls.length >= 3) {
         const names = currentEkstraklasaEvent?.matchId === matchId ? currentEkstraklasaEvent.playerNames : playerNames;
         const urls = currentEkstraklasaEvent?.matchId === matchId ? currentEkstraklasaEvent.playerUrls : playerUrls;
 
-        if (urls.length === 3) {
-          currentEkstraklasaEvent = { matchId, playerNames: names, playerUrls: urls };
-          playerButtonsContainer.style.display = 'flex';
-          player1Button.textContent = names[0];
-          player2Button.textContent = names[1];
-          player3Button.textContent = names[2];
-          player1Button.onclick = () => loadPlayer(urls[0], matchId, names, urls);
-          player2Button.onclick = () => loadPlayer(urls[1], matchId, names, urls);
-          player3Button.onclick = () => loadPlayer(urls[2], matchId, names, urls);
-          fullscreenButton.style.display = 'inline-block';
+        currentEkstraklasaEvent = { matchId, playerNames: names, playerUrls: urls };
+        playerButtonsContainer.style.display = 'block';
+        polskiTexts.innerHTML = '';
+        angielskiTexts.innerHTML = '';
+
+        // For prime_mma_14, only show Polski group
+        if (matchId === 'prime_mma_14') {
+          angielskiGroup.style.display = 'none';
+          const polskiNames = names.slice(0, 3);
+          const polskiUrls = urls.slice(0, 3);
+
+          polskiNames.forEach((name, index) => {
+            const span = document.createElement('span');
+            span.className = 'player-text';
+            span.textContent = name;
+            span.onclick = () => loadPlayer(polskiUrls[index], matchId, names, urls);
+            polskiTexts.appendChild(span);
+          });
         } else {
-          playerButtonsContainer.style.display = 'none';
-          fullscreenButton.style.display = 'none';
-          currentEkstraklasaEvent = null;
+          // For other matches (ekstraklasa or ksw110), show both groups
+          angielskiGroup.style.display = 'block';
+          document.querySelector('#angielski-group .player-group-label').textContent = 'Angielski';
+          const angielskiNames = names.slice(0, 3);
+          const angielskiUrls = urls.slice(0, 3);
+          const polskiNames = names.slice(3);
+          const polskiUrls = urls.slice(3);
+
+          angielskiNames.forEach((name, index) => {
+            if (angielskiUrls[index]) {
+              const span = document.createElement('span');
+              span.className = 'player-text';
+              span.textContent = name;
+              span.onclick = () => loadPlayer(angielskiUrls[index], matchId, names, urls);
+              angielskiTexts.appendChild(span);
+            }
+          });
+
+          polskiNames.forEach((name, index) => {
+            if (polskiUrls[index]) {
+              const span = document.createElement('span');
+              span.className = 'player-text';
+              span.textContent = name;
+              span.onclick = () => loadPlayer(polskiUrls[index], matchId, names, urls);
+              polskiTexts.appendChild(span);
+            }
+          });
         }
       } else {
+        angielskiGroup.style.display = 'block';
+        document.querySelector('#angielski-group .player-group-label').textContent = 'Angielski';
         playerButtonsContainer.style.display = 'none';
-        fullscreenButton.style.display = 'inline-block';
         currentEkstraklasaEvent = null;
-      }
-    }
-
-    function toggleFullscreen() {
-      const iframe = document.getElementById('player-iframe');
-      const playerContainer = document.querySelector('.player-container');
-      
-      if (!document.fullscreenElement) {
-        if (iframe.requestFullscreen) {
-          iframe.requestFullscreen();
-        } else if (iframe.mozRequestFullScreen) { /* Firefox */
-          iframe.mozRequestFullScreen();
-        } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-          iframe.webkitRequestFullscreen();
-        } else if (iframe.msRequestFullscreen) { /* IE/Edge */
-          iframe.msRequestFullscreen();
-        }
-      } else {
-        exitFullscreen();
-      }
-    }
-
-    function exitFullscreen() {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) { /* Firefox */
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE/Edge */
-        document.msExitFullscreen();
       }
     }
 
@@ -1381,7 +1504,6 @@
           const playerUrls = event.getAttribute('data-player-urls') ? JSON.parse(event.getAttribute('data-player-urls')) : null;
           const eventName = event.textContent.trim();
 
-          // Only include events with a valid URL or playerUrls with at least one non-empty URL
           if (url || (playerUrls && playerUrls.some(u => u))) {
             const li = document.createElement('li');
             const checkbox = document.createElement('input');
@@ -1392,8 +1514,7 @@
             checkbox.dataset.playerUrls = JSON.stringify(playerUrls || []);
             checkbox.onclick = () => limitCheckboxes();
 
-            if (playerUrls && playerUrls.length > 0 && matchId.startsWith('ekstraklasa')) {
-              // For Ekstraklasa events with multiple players, create a dropdown
+            if (playerUrls && playerUrls.length >= 3 && (matchId.startsWith('ekstraklasa') || matchId === 'ksw110' || matchId === 'prime_mma_14')) {
               const select = document.createElement('select');
               select.dataset.matchId = matchId;
               playerUrls.forEach((playerUrl, index) => {
@@ -1405,7 +1526,7 @@
                   select.appendChild(option);
                 }
               });
-              checkbox.dataset.url = playerUrls[0]; // Default to first player URL
+              checkbox.dataset.url = playerUrls[0];
               li.appendChild(checkbox);
               li.appendChild(document.createTextNode(' ' + eventName + ' '));
               li.appendChild(select);
@@ -1414,7 +1535,6 @@
                 checkbox.dataset.playerIndex = select.selectedOptions[0].dataset.playerIndex;
               };
             } else if (url) {
-              // For non-Ekstraklasa events with a single URL
               checkbox.dataset.url = url;
               checkbox.dataset.playerIndex = 0;
               li.appendChild(checkbox);
@@ -1489,7 +1609,6 @@
             iframe.src = stream.url;
             iframe.onerror = () => retryLoad(iframe, stream.url, 1, stream.name);
 
-            // Special layout for 3 streams: two on top, one centered at bottom
             if (streamCount === 3 && index === 2) {
               iframe.style.gridColumn = '1 / 3';
               iframe.style.justifySelf = 'center';
@@ -1498,8 +1617,7 @@
 
             multiScreenContent.appendChild(iframe);
 
-            // If the selected stream is an Ekstraklasa event, update the main player view
-            if (stream.matchId.startsWith('ekstraklasa') && stream.playerUrls.length === 3) {
+            if ((stream.matchId.startsWith('ekstraklasa') || stream.matchId === 'ksw110' || stream.matchId === 'prime_mma_14') && stream.playerUrls.length >= 3) {
               loadPlayer(stream.url, stream.matchId, stream.playerNames, stream.playerUrls);
             }
           }
@@ -1544,7 +1662,7 @@
       if (target) {
         const url = target.getAttribute('data-url');
         const matchId = target.getAttribute('data-match-id');
-        const playerNames = target.getAttribute('data-player-names') ? JSON.parse(target.getAttribute('data-player-names')) : ['Player 1', 'Player 2', 'Player 3'];
+        const playerNames = target.getAttribute('data-player-names') ? JSON.parse(target.getAttribute('data-player-names')) : ['Player 1', 'Player 2', 'Player 3', 'Player 4', 'Player 5', 'Player 6'];
         const playerUrls = target.getAttribute('data-player-urls') ? JSON.parse(target.getAttribute('data-player-urls')) : [];
         loadPlayer(url, matchId, playerNames, playerUrls);
       } else if (e.target === document.getElementById('multi-screen-modal')) {
@@ -1570,7 +1688,7 @@
     });
   </script>
   <script>
-    const targetDate = new Date("2025-08-22T20:30:00").getTime();
+    const targetDate = new Date("2025-12-05T20:00:00").getTime();
     function updateCountdown() {
       const now = new Date().getTime();
       const distance = targetDate - now;
@@ -1585,30 +1703,27 @@
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       document.getElementById("countdown").innerHTML =
-        `Do pierwszego meczu pozostało: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        `Do rozpoczęcia gali pozostało: ${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
   </script>
 
-<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
 
-<script type="text/javascript">
+  <script type="text/javascript">
     aclib.runInPagePush({
         zoneId: '10295334',
         maxAds: 2,
     });
-</script>
+  </script>
 
-<script type="text/javascript">
+  <script type="text/javascript">
     aclib.runPop({
         zoneId: '10295358',
     });
-</script>
-
-
-
+  </script>
 
 </body>
 </html>
