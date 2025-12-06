@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <title>Shaka Player — ClearKey Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { margin:0; background:#0f1115; color:#fff; font-family:sans-serif; }
+    #video { width:100%; height:100vh; background:#000; }
+    .error { position:fixed; bottom:0; left:0; right:0; background:#b00020; color:#fff; padding:8px; display:none; }
+  </style>
+  <!-- Shaka Player CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.9.2/shaka-player.compiled.min.js"></script>
+</head>
+<body>
+  <video id="video" autoplay muted controls></video>
+  <div id="error" class="error"></div>
+
+  <script>
+    // Twój manifest MPEG-DASH
+    const MPD_URL = "https://r.dcs.redcdn.pl/livedash/play/playtv/indigo/live/eurosport_1/live.livx";
+
+    // ClearKey systemId (stały dla ClearKey)
+    const CLEARKEY_SYSTEM_ID = "1077efec-c0b2-4d02-ace3-3c1e52e2c9f7";
+
+    // Twoje klucze (keyId : key) w hex
+    const CLEARKEYS = {
+      "da06f4c57e72864cc1c1683c617e8b41": "ba1564e172b11ec727f63236d633e87d"
+    };
+
+    async function initPlayer() {
+      const video = document.getElementById('video');
+      const player = new shaka.Player(video);
+
+      // Konfiguracja DRM z ClearKey
+      player.configure({
+        drm: {
+          clearKeys: CLEARKEYS
+        }
+      });
+
+      // Obsługa błędów
+      player.addEventListener('error', e => {
+        console.error('Shaka error', e.detail);
+        const errBox = document.getElementById('error');
+        errBox.style.display = 'block';
+        errBox.textContent = "Błąd odtwarzania: " + JSON.stringify(e.detail);
+      });
+
+      try {
+        await player.load(MPD_URL);
+        console.log('Strumień załadowany!');
+      } catch (e) {
+        console.error('Load error', e);
+        const errBox = document.getElementById('error');
+        errBox.style.display = 'block';
+        errBox.textContent = "Błąd ładowania: " + e;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initPlayer);
+  </script>
+</body>
+</html>
