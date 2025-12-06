@@ -2,17 +2,17 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
-  <title>JW Player — ClearKey Demo</title>
+  <title>Shaka Player — ClearKey Demo</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     body { margin:0; background:#0f1115; color:#fff; font-family:sans-serif; }
-    #player { width:100%; height:100vh; background:#000; }
+    #video { width:100%; height:100vh; background:#000; }
   </style>
-  <!-- JW Player (cloud-hosted) -->
-  <script src="https://cdn.jwplayer.com/libraries/your-library-key.js"></script>
+  <!-- Shaka Player -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.9.2/shaka-player.compiled.min.js"></script>
 </head>
 <body>
-  <div id="player"></div>
+  <video id="video" controls autoplay muted></video>
 
   <script>
     // Twój manifest MPEG-DASH
@@ -23,17 +23,26 @@
       "20838b6bc2df0373e95a35538e666a2e": "6f10fbc7965f120a820e6d4dc9fcfa34"
     };
 
-    jwplayer("player").setup({
-      file: MPD_URL,
-      autostart: true,
-      mute: true,
-      width: "100%",
-      height: "100%",
-      type: "dash",
-      drm: {
-        clearkey: CLEARKEYS
+    async function initPlayer() {
+      const video = document.getElementById('video');
+      const player = new shaka.Player(video);
+
+      // Obsługa błędów
+      player.addEventListener('error', e => console.error('Shaka error', e));
+
+      try {
+        await player.load(MPD_URL, null, {
+          drm: {
+            clearKeys: CLEARKEYS
+          }
+        });
+        console.log('Stream załadowany!');
+      } catch (err) {
+        console.error('Błąd podczas ładowania', err);
       }
-    });
+    }
+
+    document.addEventListener('DOMContentLoaded', initPlayer);
   </script>
 </body>
 </html>
