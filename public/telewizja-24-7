@@ -1,1 +1,422 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Telewizja 24/7 Neon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      background: #0a0a0f;
+      color: #fff;
+    }
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: #000;
+      padding: 20px;
+      box-shadow: 4px 0 20px rgba(0,255,204,0.25);
+      overflow-y: auto;
+    }
+    .sidebar h2 {
+      margin: 20px 0 10px;
+      font-size: 1.2em;
+      color: #00ffcc;
+      text-shadow: 0 0 12px #00ffcc, 0 0 24px #ff00d4;
+      border-bottom: 1px solid rgba(0,255,204,0.3);
+      padding-bottom: 6px;
+    }
+    /* Buttons */
+    .channel-btn {
+      display: block;
+      width: 100%;
+      margin: 6px 0;
+      padding: 10px;
+      font-size: 0.95em;
+      font-weight: bold;
+      color: #00ffcc;
+      background: transparent;
+      border: 1px solid #00ffcc;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      text-shadow: 0 0 6px #00ffcc;
+      transition: all 0.3s ease;
+    }
+    .channel-btn:hover {
+      background: #00ffcc;
+      color: #000;
+      box-shadow: 0 0 20px #00ffcc, 0 0 40px #ff00d4;
+      transform: translateX(5px);
+    }
+    /* Neonowy przycisk powrotu */
+    .home-btn {
+      display: block;
+      width: 100%;
+      margin: 0 0 20px;
+      padding: 12px;
+      font-size: 1em;
+      font-weight: bold;
+      color: #00ff66; /* neonowa zieleń */
+      background: transparent;
+      border: 2px solid #00ff66;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      text-shadow: 0 0 8px #00ff66;
+      transition: all 0.3s ease;
+    }
+    .home-btn:hover {
+      background: #00ff66;
+      color: #000;
+      box-shadow: 0 0 20px #00ff66, 0 0 40px #00ffcc;
+      transform: scale(1.05);
+    }
+    /* Neonowa wyszukiwarka (pod przyciskiem) */
+    .search-box {
+      width: 90%;
+      height: 32px;
+      padding: 10px 14px;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+      color: #00ffcc;
+      background: #111;
+      border: 2px solid #00ffcc;
+      border-radius: 8px;
+      outline: none;
+      text-shadow: 0 0 8px #00ffcc;
+      box-shadow: 0 0 12px rgba(0,255,204,0.4);
+      transition: all 0.3s ease;
+    }
+    .search-box::placeholder {
+      color: #00ffcc;
+      opacity: 0.7;
+      text-shadow: 0 0 6px #00ffcc;
+    }
+    .search-box:focus {
+      background: #000;
+      box-shadow: 0 0 20px #00ffcc, 0 0 40px #ff00d4;
+      transform: scale(1.03);
+    }
+    /* Content */
+    .content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      position: relative;
+    }
+    #player {
+      width: 90%;
+      height: 90%;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0,255,204,0.4), 0 0 45px rgba(255,0,212,0.25);
+      display: none;
+      background: #000;
+    }
+    .placeholder {
+      font-size: 1.4em;
+      color: #888;
+      text-shadow: 0 0 10px rgba(0,255,204,0.3);
+    }
+  </style>
+  
+</head>
+<body>
+  <div class="sidebar">
+    <!-- przycisk powrotu -->
+    <button class="home-btn" onclick="window.location.href='https://mmafreee.eu/strumyk'">
+      ⬅ Powrót na stronę główną
+    </button>
 
+    <!-- wyszukiwarka pod przyciskiem -->
+    <input type="text" id="searchInput" placeholder="🔍 Szukaj kanału..." class="search-box">
+
+    <h2>Ogólne</h2>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/tvp1.html">TVP1</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/tvp2.html">TVP2</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/tvp3.html">TVP3 Warszawa</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=polsuper_sdtv">Polsat</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/tvn.html">TVN</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=t7hd">TVN 7</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=puls_">TV Puls</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/puls2.html">Puls 2</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=ttvonline1_tvhd1">TTV</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=czworkatv">TV4</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=tv6_tvch">TV6</button>
+    
+    <h2>Newsowe</h2>
+    <button class="channel-btn" data-embed="https://partner.ipla.tv/embed/XNgSz8/media/1517830/live">Polsat News</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=trujka_pr">Wydarzenia 24</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=tvn24najlepszyt">TVN24</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=24bis_tvt">TVN24 BIS</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=informacyjny_polskatvbba">TVP Info</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/tvrepublika.html">TV Republika</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/tvrepublikaplus.html">TV Republika Plus</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/toyatv.html">Toya TV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/echo24.html">Echo24</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/wpolsce24.html">wPolsce24</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/news24.html">News24</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/biznes24.html">Biznes24</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/telewizjabiznesowa.html">Telewizja Biznesowa</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/superexpresstv.html">Super Express TV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/muratortv.html">Murator TV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/poradnikzdrowie.html">Poradnik Zdrowie</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/studiomedtv.html">StudioMed TV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/tvregio.html">TV Regio</button>
+    
+    
+
+    <h2>Filmowe</h2>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/kinotv.html">Kino TV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/kinopolska.html">Kino Polska</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/viasatcrime.html">Viasat True Crime</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/filmcafe.html">Film Cafe</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/amc.html">AMC</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/cbsreality.html">CBS Reality</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/filmboxpremium.html">Filmbox Premium</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/filmboxextra.html">Filmbox Extra</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/filmboxaction.html">Filmbox Action</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/filmboxfamily.html">Filmbox Family</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/filmboxarthouse.html">Filmbox ArtHouse</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/epicdrama.html">Epic Drama</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/filmax.html">FILMAX</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/vidoc.html">ViDocTV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/showtv.html">Show TV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/antenatv.html">Antena TV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/bollywood.html">Bollywood</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/sundance.html">Sundance TV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/stopklatka.html">Stopklatka</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/zoomtv.html">Zoom TV</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=filmy24cz">HBO</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=hbochannel2hdtv">HBO 2</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=hbo3_hdtv">HBO 3</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=poltvsat__cinmax">Cinemax</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=superstacja_tv">Cinemax 2</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/analpremium.html">Canal+ Premium</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=axn_blacktvhd2">Canal+ Seriale</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=cbs_europatvhd2">Canal+ Film</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/analkuchnia.html">Canal+ Kuchnia</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/analdomo.html">Canal+ Domo</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=tkinoTVhdhd3">Ale Kino+</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=polsatfilmhdtv">Polsat Film</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=polsatplay_hd1">Polsat Play</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=cinemaxXD">Polsat Cafe</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=epic_dramahd">Polsat Rodzina</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=fox_hd">FOX</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=fox_comedy">FOX Comedy</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/comedycentral.html">Comedy Central</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=comedyfamily_sd">Polsat Comedy Central Extra</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=axn_hd">AXN</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=disney__xd">AXN Black</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=axn_white_hd">AXN White</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=tvnstyleh">TVN Style</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=fab_tvn">TVN Fabuła</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=TLCt">TLC</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=hbo">Super Polsat</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=spin_av">Discovery Turbo Xtra</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=puls_2">Discovery Life</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=travel_channeltvhd">Warner TV</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=nowa_tvhv">13 Ulica</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=polsat_2_tv">Polsat 2</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=tvp_sport_hdtv">Polsat Seriale</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=cplus_familijnyhdtv5">Canal+ 360</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=klasykatvh">HGTV</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=bajeczki_jhd">SCI FI</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=fox_comedy24tv">TVP Kultura</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=zet_gold">TVP Kobieta</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=TVP_hdrozrywkatv">TVP Rozrywka</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=news_2">Travel Channel</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=kissfmuk">Świat Według Kiepskich</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=kuchennerewolucje">Kuchenne Rewolucje</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=miodowelata">Miodowe Lata</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=drhousemd24">DR House</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=13posterunek">13 Posterunek</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=puls_hd_zap">Boso Przez Świat</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=detektywi">Królowe Życia</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=rodzinkapl">Rodzinka.PL</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=ugotowani135">Ugotowani</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=tvp2_tv">Kryminalni</button>
+
+    <h2>Sportowe</h2>
+    <button class="channel-btn" data-embed="https://gostream.sbs/play/goplay.php?id=14">TVP Sport</button>
+    <button class="channel-btn" data-embed="https://gostream.sbs/play/goplay.php?id=60">Polsat Sport 1</button>
+    <button class="channel-btn" data-embed="https://gostream.sbs/play/goplay.php?id=36">Polsat Sport 2</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/polsatsport3.html">Polsat Sport 3</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/polsatsportfight.html">Polsat Sport Fight</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=pspremium1">Polsat Sport Premium 1</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=pspremium2">Polsat Sport Premium 2</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=event">Polsat Sport Extra 1</button>
+<button class="channel-btn" data-embed="https://mmafreee.eu/stream/polsatsportextra2.html">Polsat Sport Extra 2</button>
+<button class="channel-btn" data-embed="https://mmafreee.eu/stream/polsatsportextra3.html">Polsat Sport Extra 3</button>
+<button class="channel-btn" data-embed="https://mmafreee.eu/stream/polsatsportextra4.html">Polsat Sport Extra 4</button>
+<button class="channel-btn" data-embed="https://gostream.sbs/play/goplay.php?id=37">Canal+ Sport</button>
+<button class="channel-btn" data-embed="https://gostream.sbs/play/goplay.php?id=38">Canal+ Sport 2</button>
+<button class="channel-btn" data-embed="https://gostream.sbs/play/goplay.php?id=39">Canal+ Sport 3</button>
+<button class="channel-btn" data-embed="https://gostream.sbs/play/goplay.php?id=40">Canal+ Sport 4</button>
+<button class="channel-btn" data-embed="https://mmafreee.eu/stream/analsport5.html">Canal+ Sport 5</button>
+<button class="channel-btn" data-embed="https://gostream.sbs/play/goplay.php?id=34">Canal+ Extra 1</button>
+<button class="channel-btn" data-embed="https://gostream.sbs/play/goplay.php?id=61">Canal+ Extra 2</button>
+<button class="channel-btn" data-embed="https://mmafreee.eu/stream/analextra3.html">Canal+ Extra 3</button>
+<button class="channel-btn" data-embed="">Canal+ Extra 4</button>
+<button class="channel-btn" data-embed="">Canal+ Extra 5</button>
+<button class="channel-btn" data-embed="">Canal+ Extra 6</button>
+<button class="channel-btn" data-embed="">Canal+ Extra 7</button>
+<button class="channel-btn" data-embed="">Canal+ Extra 8</button>
+<button class="channel-btn" data-embed="">Canal+ Extra 9</button>
+<button class="channel-btn" data-embed="https://mmafreee.eu/stream/elevensports4k.html">Eleven Sports 4K</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/elevensports11.html">Eleven Sports 1</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/elevensports22.html">Eleven Sports 2</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/elevensports33.html">Eleven Sports 3</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/elevensports44.html">Eleven Sports 4</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/eurosport1.html">Eurosport 1</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/eurosport2.html">Eurosport 2</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/sportklub.html">Sportklub</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/sportowatv.html">Sportowa TV</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/fighttime.html">Fighttime</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/motowizja.html">Motowizja</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/extremesports.html">Extreme Sports</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/fightbox.html">FightBox</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/fightklub.html">Fightklub</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/golfzone.html">Golf Zone</button>
+    <h2>Naukowe</h2>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/analdokument.html">Canal+ Dokument</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/docubox.html">DocuBox</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=discorrv_HD">Discovery Channel</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=film_familt">Discovery Historia</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=eska_rocktv">Discovery Science</button>
+    <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=nat_geo_peopletvt">Investigation Discovery</button>
+    <button class="channel-btn" data-embed="https://mmafreee.eu/stream/polsatcrime.html">Polsat Crime Investigation</button>
+     <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=fokus_tv">Fokus TV</button>
+     <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=historiatv">TVP Historia</button>
+     <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=tvp1hdtt">TVP Nauka</button>
+     <button class="channel-btn" data-embed="https://mmafreee.eu/stream/nationalgeographic.html">National Geographic</button>
+     <button class="channel-btn" data-embed="https://mmafreee.eu/stream/nationalgeographicwild.html">National Geographic Wild</button>
+     <button class="channel-btn" data-embed="https://mmafreee.eu/stream/natgeopeople.html">Nat Geo People</button>
+     <button class="channel-btn" data-embed="https://weebtv.tvportal.cc/tv.html?id=history">History</button>
+     <button class="channel-btn" data-embed="https://mmafreee.eu/stream/history2.html">History 2</button>
+  </div>
+
+  <div class="content">
+    <div class="placeholder">Wybierz kanał z menu po lewej stronie</div>
+    <iframe id="player" allowfullscreen allow="fullscreen"></iframe>
+  </div>
+  <div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+  ❅
+  </div>
+  <div class="snowflake">
+  ❅
+  </div>
+  <div class="snowflake">
+  ❆
+  </div>
+  <div class="snowflake">
+  ❄
+  </div>
+  <div class="snowflake">
+  ❅
+  </div>
+  <div class="snowflake">
+  ❆
+  </div>
+</div>
+<style>
+
+.snowflake {
+  color: #fff;
+  font-size: 1em;
+  font-family: Arial;
+  text-shadow: 0 0 1px #000;
+}
+
+@-webkit-keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@-webkit-keyframes snowflakes-shake{0%{-webkit-transform:translateX(0px);transform:translateX(0px)}50%{-webkit-transform:translateX(80px);transform:translateX(80px)}100%{-webkit-transform:translateX(0px);transform:translateX(0px)}}@keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@keyframes snowflakes-shake{0%{transform:translateX(0px)}50%{transform:translateX(80px)}100%{transform:translateX(0px)}}.snowflake{position:fixed;top:-10%;z-index:9999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default;-webkit-animation-name:snowflakes-fall,snowflakes-shake;-webkit-animation-duration:10s,3s;-webkit-animation-timing-function:linear,ease-in-out;-webkit-animation-iteration-count:infinite,infinite;-webkit-animation-play-state:running,running;animation-name:snowflakes-fall,snowflakes-shake;animation-duration:10s,3s;animation-timing-function:linear,ease-in-out;animation-iteration-count:infinite,infinite;animation-play-state:running,running}.snowflake:nth-of-type(0){left:1%;-webkit-animation-delay:0s,0s;animation-delay:0s,0s}.snowflake:nth-of-type(1){left:10%;-webkit-animation-delay:1s,1s;animation-delay:1s,1s}.snowflake:nth-of-type(2){left:20%;-webkit-animation-delay:6s,.5s;animation-delay:6s,.5s}.snowflake:nth-of-type(3){left:30%;-webkit-animation-delay:4s,2s;animation-delay:4s,2s}.snowflake:nth-of-type(4){left:40%;-webkit-animation-delay:2s,2s;animation-delay:2s,2s}.snowflake:nth-of-type(5){left:50%;-webkit-animation-delay:8s,3s;animation-delay:8s,3s}.snowflake:nth-of-type(6){left:60%;-webkit-animation-delay:6s,2s;animation-delay:6s,2s}.snowflake:nth-of-type(7){left:70%;-webkit-animation-delay:2.5s,1s;animation-delay:2.5s,1s}.snowflake:nth-of-type(8){left:80%;-webkit-animation-delay:1s,0s;animation-delay:1s,0s}.snowflake:nth-of-type(9){left:90%;-webkit-animation-delay:3s,1.5s;animation-delay:3s,1.5s}
+/* Demo Purpose Only*/
+.demo {
+  font-family: 'Raleway', sans-serif;
+	color:#fff;
+    display: block;
+    margin: 0 auto;
+    padding: 15px 0;
+    text-align: center;
+}
+.demo a{
+  font-family: 'Raleway', sans-serif;
+color: #000;		
+}
+</style>
+
+  <script>
+  const player = document.getElementById("player");
+  const placeholder = document.querySelector(".placeholder");
+
+  // Obsługa kliknięcia w kanał
+  document.querySelectorAll(".channel-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const url = btn.getAttribute("data-embed");
+      player.src = url;
+      player.style.display = "block";
+      placeholder.style.display = "none";
+    });
+  });
+
+  // Wyszukiwarka kanałów
+  const searchInput = document.getElementById("searchInput");
+  const allChannels = document.querySelectorAll(".channel-btn");
+  const allHeadings = document.querySelectorAll(".sidebar h2");
+
+  searchInput.addEventListener("keyup", () => {
+    const filter = searchInput.value.toLowerCase();
+
+    // filtrowanie kanałów
+    allChannels.forEach(btn => {
+      const txt = btn.textContent.toLowerCase();
+      btn.style.display = txt.includes(filter) ? "block" : "none";
+    });
+
+    // ukrywanie nagłówków, gdy coś wpisane
+    if (filter.length > 0) {
+      allHeadings.forEach(h => h.style.display = "none");
+    } else {
+      allHeadings.forEach(h => h.style.display = "block");
+    }
+  });
+  
+ 
+</script>
+<script id="cid0020000425278017643" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 200px;height: 300px;">{"handle":"dajfdhjajiaijfjfa","arch":"js","styles":{"a":"CC0000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"CC0000","l":"CC0000","m":"CC0000","n":"FFFFFF","p":"10","q":"CC0000","r":100,"pos":"br","cv":1,"cvbg":"CC0000","cvw":151,"cvh":34}}</script>
+<script>
+    // Blokowanie prawego przycisku myszy
+    document.addEventListener("contextmenu", function(e) {
+      e.preventDefault();
+   
+    });
+
+    // Blokowanie wybranych skrótów klawiszowych
+    document.addEventListener("keydown", function(e) {
+      // Normalizujemy klawisze
+      const key = e.key.toLowerCase();
+
+      // Lista kombinacji do blokowania
+      if (
+        (e.ctrlKey && key === "s") ||   // Ctrl+S
+        (e.ctrlKey && key === "u") ||   // Ctrl+U
+        (e.ctrlKey && e.shiftKey && key === "i") || // Ctrl+Shift+I
+        (e.ctrlKey && key === "c") ||   // Ctrl+C
+        (e.ctrlKey && key === "x") ||   // Ctrl+X
+        (e.ctrlKey && key === "v") ||   // Ctrl+V
+        (e.ctrlKey && key === "a")      // Ctrl+A
+      ) {
+        e.preventDefault();
+        
+      }
+    });
+    
+  </script>
+</body>
+</html>
